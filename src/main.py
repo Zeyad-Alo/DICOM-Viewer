@@ -10,10 +10,10 @@ class MainWindow(QtWidgets.QMainWindow):
         ''' Main window constructor'''
 
         super(MainWindow, self).__init__(*args, **kwargs)
-        uic.loadUi('./resources/MainWindow.ui', self)
+        uic.loadUi('F:/zeyad/Documents/repos/GitHub/DICOM-Viewer/resources/MainWindow.ui', self)
 
         # set the title and icon
-        self.setWindowIcon(QtGui.QIcon('./resources/icons/icon.png'))
+        self.setWindowIcon(QtGui.QIcon('F:/zeyad/Documents/repos/GitHub/DICOM-Viewer/resources/icon.png'))
         self.setWindowTitle("Image Mixer")
 
         # initialize UI

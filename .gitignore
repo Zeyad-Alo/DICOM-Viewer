@@ -10,6 +10,11 @@ Scripts/
 share/
 pyvenv.cfg
 
+#.pyinstaller build
+build/
+dist/
+main.spec
+
 # User-specific files
 *.rsuser
 *.suo
