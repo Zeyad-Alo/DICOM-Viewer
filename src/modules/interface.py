@@ -10,7 +10,7 @@ def display_image(self, data):
     Display the image data in a QPixmap given a key to the display_reference_dict
     '''
 
-    plt.imshow(data)
+    plt.imshow(data, cmap='gray')
     self.image_plot.draw()
     self.figure.canvas.draw()
     return
@@ -25,7 +25,6 @@ def display_metadata(self, dict):
     for key in dict:
         self.labl = QLabel(self)
         self.labl.setText(key + str(dict[key]))
-        print(self.labl.text())
 
         self.verticalLayout_6.addWidget(self.labl)
 

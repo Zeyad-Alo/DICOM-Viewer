@@ -4,7 +4,10 @@ import os
 import pydicom as dicom
 
 class ImageData:
+    # DICTIONARY FOR BIT DEPTHS ACCORDING TO MODE
+    mode_to_depth = {'1':1, 'L':8, 'P':8, 'RGB':24, 'RGBA':32, 'CMYK':32, 'YCbCr':24, 'I':32, 'F':32}
     plot_data = []
+
     def __init__(self, path):
         self.path = path
 
@@ -12,53 +15,60 @@ class ImageData:
         extension = os.path.splitext(path)[1]
 
         if extension == '.dcm':
-
-            # READ AS DICOM AND CONFIGURE ATTRIBUTES
-            try: ds = dicom.dcmread(path)
-            except:
-                error = QMessageBox()
-                error.setIcon(QMessageBox.Critical)
-                error.setText("DICOM Exception")
-                error.setInformativeText('File is corrupted or missing DICOM header.')
-                error.setWindowTitle("Error")
-                error.exec_()
-                return
-
-            self.plot_data = ds.pixel_array
-
-            self.format = 'DICOM'
-            try: self.width = ds.Columns 
-            except AttributeError: self.width = ''
-            try: self.height = ds.Rows
-            except AttributeError: self.height = ''
-            self.size = os.stat(path).st_size
-            try: self.depth = ds.BitsAllocated
-            except AttributeError: self.depth = ''
-            try: self.colorMode = ds.PhotometricInterpretation
-            except AttributeError: self.colorMode = ''
-
-            try: self.modality = ds.Modality
-            except AttributeError: self.modality = ''
-            try: self.patientName = ds.PatientName
-            except AttributeError: self.patientName = ''
-            try: self.patientAge = ds.PatientAge
-            except AttributeError: self.patientAge = ''
-            try: self.bodyPartExaminded = ds.StudyDescription
-            except AttributeError: self.bodyPartExaminded = ''
-
-
+            self.import_dicom()
         else:
-            
-            # READ AS NORMAL IMAGE AND CONFIGURE ATTRIBUTES
-            image = Image.open(path)
-            self.plot_data = image
+            self.import_general()
 
-            self.format = image.format
-            self.width = image.width
-            self.height = image.height
-            self.size = os.stat(path).st_size
-            self.colorMode = image.mode
-            self.depth = mode_to_depth[self.colorMode]
+
+    # READ AS DICOM AND CONFIGURE ATTRIBUTES
+    def import_dicom(self):
+
+        # CHECK FILE HEALTH
+        try: ds = dicom.dcmread(self.path)
+        except:
+            error = QMessageBox()
+            error.setIcon(QMessageBox.Critical)
+            error.setText("DICOM Exception")
+            error.setInformativeText('File is corrupted or missing DICOM header.')
+            error.setWindowTitle("Error")
+            error.exec_()
+            return
+
+        self.plot_data = ds.pixel_array
+
+        # CONFIG METADATA
+        self.format = 'DICOM'
+        try: self.width = ds.Columns 
+        except AttributeError: self.width = ''
+        try: self.height = ds.Rows
+        except AttributeError: self.height = ''
+        self.size = os.stat(self.path).st_size
+        try: self.depth = ds.BitsAllocated
+        except AttributeError: self.depth = ''
+        try: self.colorMode = ds.PhotometricInterpretation
+        except AttributeError: self.colorMode = ''
+
+        try: self.modality = ds.Modality
+        except AttributeError: self.modality = ''
+        try: self.patientName = ds.PatientName
+        except AttributeError: self.patientName = ''
+        try: self.patientAge = ds.PatientAge
+        except AttributeError: self.patientAge = ''
+        try: self.bodyPartExaminded = ds.StudyDescription
+        except AttributeError: self.bodyPartExaminded = ''
+
+
+    # READ AS NORMAL IMAGE AND CONFIGURE ATTRIBUTES
+    def import_general(self):
+        image = Image.open(self.path)
+        self.plot_data = image
+
+        self.format = image.format
+        self.width = image.width
+        self.height = image.height
+        self.size = os.stat(self.path).st_size
+        self.colorMode = image.mode
+        self.depth = self.mode_to_depth[self.colorMode]
 
 
     def get_attributes(self):
@@ -86,9 +96,3 @@ class ImageData:
 
 
         return dict
-
-    
-
-
-# DICTIONARY FOR BIT DEPTHS ACCORDING TO MODE
-mode_to_depth = {'1':1, 'L':8, 'P':8, 'RGB':24, 'RGBA':32, 'CMYK':32, 'YCbCr':24, 'I':32, 'F':32}
