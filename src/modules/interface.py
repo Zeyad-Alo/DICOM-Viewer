@@ -6,9 +6,6 @@ import matplotlib.pylab as plt
 
 
 def display_image(self, data):
-    '''
-    Display the image data in a QPixmap given a key to the display_reference_dict
-    '''
 
     plt.imshow(data, cmap='gray')
     self.image_plot.draw()
@@ -19,22 +16,29 @@ def display_image(self, data):
 
 def display_metadata(self, dict):
 
-    if self.verticalLayout_6.isEmpty() == False:
-        clear_layout(self.verticalLayout_6)
+    if self.metadata_layout.isEmpty() == False:
+        clear_layout(self)
 
+
+    # CREATE QLABELS CONTAINING DICTIONARY ITEMS AND ADD THEM TO THE LAYOUT
     for key in dict:
         self.labl = QLabel(self)
         self.labl.setText(key + str(dict[key]))
 
-        self.verticalLayout_6.addWidget(self.labl)
+        self.metadata_layout.addWidget(self.labl)
 
 
 # CLEARS METADATA LAYOUT
-def clear_layout(layout):
-  while layout.count():
-    child = layout.takeAt(0)
+def clear_layout(self):
+  while self.metadata_layout.count():
+    child = self.metadata_layout.takeAt(0)
     if child.widget():
       child.widget().deleteLater()
+
+def clear_image(self):
+    self.axes.clear()
+    self.image_plot.draw()
+    self.figure.canvas.draw()
 
 
 # CREATES MATPLOTLIB FIGURE
@@ -43,14 +47,9 @@ def init_plot(self):
     self.figure.patch.set_facecolor('black')
     self.axes = self.figure.add_subplot()
     self.image_plot = Canvas(self.figure)
-    self.verticalLayout_5.addWidget(self.image_plot)
+    self.image_box.addWidget(self.image_plot)
 
 
 def init_connectors(self):
-    '''Initializes all event connectors and triggers'''
-
-    ''' Browse buttons'''
-    # self.metadata_groupBox.hide()
-
     self.insert_image_pushButton.clicked.connect(
         lambda: openfile.browse_window(self))

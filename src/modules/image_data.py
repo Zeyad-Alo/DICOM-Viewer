@@ -60,7 +60,16 @@ class ImageData:
 
     # READ AS NORMAL IMAGE AND CONFIGURE ATTRIBUTES
     def import_general(self):
-        image = Image.open(self.path)
+        try: image = Image.open(self.path)
+        except:
+            error = QMessageBox()
+            error.setIcon(QMessageBox.Critical)
+            error.setText("EXCEPTION")
+            error.setInformativeText('File is corrupted or missing header.')
+            error.setWindowTitle("Error")
+            error.exec_()
+            return
+
         self.plot_data = image
 
         self.format = image.format

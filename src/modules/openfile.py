@@ -16,4 +16,6 @@ def browse_window(self):
         try:
             interface.display_image(self, data.plot_data)
             interface.display_metadata(self, data.get_attributes())
-        except: return
+        except:
+            interface.clear_layout(self)
+            interface.clear_image(self)
