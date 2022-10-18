@@ -30,6 +30,7 @@ class Display:
         
         
 
+    # Takes in a figure, makes it active and draws
     def display_image(self, figure, data):
         Display.clear_image(self, figure)
         plt.figure(figure.number)

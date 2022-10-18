@@ -38,7 +38,7 @@ background-color: rgb(13, 17, 23);</string>
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>

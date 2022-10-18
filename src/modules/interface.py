@@ -9,6 +9,6 @@ def init_connectors(self):
 
     self.size_slider.valueChanged.connect(
         lambda: self.size_lcd.display((self.size_slider.value()/10)))
-        
+
     self.size_slider.sliderReleased.connect(
-        lambda: Interpolate.interpolate_nearest_neighbor(self, (self.size_slider.value()/10)))
+        lambda: Interpolate.interpolate(self, (self.size_slider.value()/10)))

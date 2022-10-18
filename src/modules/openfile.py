@@ -17,6 +17,7 @@ def browse_window(self):
         data = image_data.ImageData(path)
         Interpolate.image_array = np.array(data.grayscale_img)
         Interpolate.interpolate_nearest_neighbor(self, (self.size_slider.value()/10))
+        Interpolate.interpolate_bilinear(self, (self.size_slider.value()/10))
 
         
         try:
