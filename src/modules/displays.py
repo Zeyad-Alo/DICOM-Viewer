@@ -1,7 +1,7 @@
 
 from turtle import clear
 from PyQt5.QtGui import *
-from PyQt5.QtWidgets import QLabel
+from PyQt5.QtWidgets import QLabel, QScrollArea
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as Canvas
 import matplotlib.pylab as plt
 
@@ -16,16 +16,26 @@ class Display:
         self.image_box.addWidget(self.main_plot)
 
     def create_neaarest_neighbor_canvas(self):
+        self.nn_scroll = QScrollArea()
+        self.nn_scroll.setStyleSheet("background-color: black")
+
         self.nn_figure = plt.figure()
         self.nn_figure.patch.set_facecolor('black')
         self.nn_plot = Canvas(self.nn_figure)
-        self.nearest_neighbor_box.addWidget(self.nn_plot)
+
+        self.nn_scroll.setWidget(self.nn_plot)
+        self.nearest_neighbor_box.addWidget(self.nn_scroll)
 
     def create_bilinear_canvas(self):
+        self.bl_scroll = QScrollArea()
+        self.bl_scroll.setStyleSheet("background-color: black")
+
         self.bilinear_figure = plt.figure()
         self.bilinear_figure.patch.set_facecolor('black')
         self.bilinear_plot = Canvas(self.bilinear_figure)
-        self.bilinear_box.addWidget(self.bilinear_plot)
+        
+        self.bl_scroll.setWidget(self.bilinear_plot)
+        self.bilinear_box.addWidget(self.bl_scroll)
 
         
         
@@ -34,8 +44,10 @@ class Display:
     def display_image(self, figure, data):
         Display.clear_image(self, figure)
         plt.figure(figure.number)
-        if figure == self.main_figure: plt.imshow(data, cmap='gray')
+
+        if figure == self.main_figure: plt.imshow(data, cmap='gray') # Autofits image in main plot
         else: plt.figimage(data, cmap='gray')
+
         plt.draw()
 
     def clear_image(self, figure):

@@ -14,6 +14,9 @@ def browse_window(self):
 
     if path != '':
 
+        # Reset slider position
+        self.size_slider.setValue(10)
+        
         data = image_data.ImageData(path)
         Interpolate.image_array = np.array(data.grayscale_img)
         Interpolate.interpolate_nearest_neighbor(self, (self.size_slider.value()/10))

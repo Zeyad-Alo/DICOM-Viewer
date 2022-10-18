@@ -30,6 +30,9 @@ class Interpolate:
                 for j in range(new_h):
                     new_arr[i][j] = Interpolate.image_array[math.floor(i/scale)][math.floor(j/scale)]
 
+            # Resize plot to make it scrollable
+            self.nn_plot.resize(new_arr.shape[0],new_arr.shape[0])
+
             Display.display_image(self, self.nn_figure, new_arr)
 
         else: return
@@ -74,6 +77,9 @@ class Interpolate:
                     
                     new_arr[i][j] = Dy_prev * (Interpolate.image_array[y_next][x_prev] * Dx_next + Interpolate.image_array[y_next][x_next] * Dx_prev) \
                     + Dy_next * (Interpolate.image_array[y_prev][x_prev] * Dx_next + Interpolate.image_array[y_prev][x_next] * Dx_prev)
+
+            # Resize plots to make it scrollable
+            self.bilinear_plot.resize(new_arr.shape[0],new_arr.shape[0])
 
             Display.display_image(self, self.bilinear_figure, new_arr)
 

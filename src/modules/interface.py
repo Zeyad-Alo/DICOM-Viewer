@@ -3,6 +3,7 @@ from modules import openfile
 from modules.size_interpolation import Interpolate
 
 
+# UI connectors
 def init_connectors(self):
     self.actionOpen.triggered.connect(
         lambda: openfile.browse_window(self))
