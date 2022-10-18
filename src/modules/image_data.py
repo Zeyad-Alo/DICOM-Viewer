@@ -2,11 +2,12 @@ from PIL import Image
 from PyQt5.QtWidgets import QMessageBox
 import os
 import pydicom as dicom
+import numpy as np
+import math
 
 class ImageData:
-    # DICTIONARY FOR BIT DEPTHS ACCORDING TO MODE
-    mode_to_depth = {'1':1, 'L':8, 'P':8, 'RGB':24, 'RGBA':32, 'CMYK':32, 'YCbCr':24, 'I':32, 'F':32}
     plot_data = []
+    grayscale_img = []
 
     def __init__(self, path):
         self.path = path
@@ -35,6 +36,7 @@ class ImageData:
             return
 
         self.plot_data = ds.pixel_array
+        self.grayscale_img = self.plot_data
 
         # CONFIG METADATA
         self.format = 'DICOM'
@@ -42,9 +44,9 @@ class ImageData:
         except AttributeError: self.width = ''
         try: self.height = ds.Rows
         except AttributeError: self.height = ''
-        self.size = os.stat(self.path).st_size
         try: self.depth = ds.BitsAllocated
         except AttributeError: self.depth = ''
+        self.size = self.width * self.height * self.depth
         try: self.colorMode = ds.PhotometricInterpretation
         except AttributeError: self.colorMode = ''
 
@@ -71,13 +73,15 @@ class ImageData:
             return
 
         self.plot_data = image
+        self.grayscale_img = np.array(image.convert('L'))
 
         self.format = image.format
         self.width = image.width
         self.height = image.height
-        self.size = os.stat(self.path).st_size
+        try: self.depth = math.ceil(math.log(np.amax(image) - np.amin(image) + 1, 2)) * np.shape(image)[2]
+        except: self.depth = math.ceil(math.log(np.amax(image) - np.amin(image) + 1, 2))
+        self.size = self.width * self.height * self.depth
         self.colorMode = image.mode
-        self.depth = self.mode_to_depth[self.colorMode]
 
 
     def get_attributes(self):

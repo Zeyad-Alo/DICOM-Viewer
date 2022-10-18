@@ -1,6 +1,9 @@
 from PyQt5.QtWidgets import QFileDialog
 from modules import interface
+from modules.displays import Display
 from modules import image_data
+from modules.size_interpolation import Interpolate
+import numpy as np
 
 def browse_window(self):
 
@@ -12,10 +15,13 @@ def browse_window(self):
     if path != '':
 
         data = image_data.ImageData(path)
+        Interpolate.image_array = np.array(data.grayscale_img)
+        Interpolate.interpolate_nearest_neighbor(self, (self.size_slider.value()/10))
+
         
         try:
-            interface.display_image(self, data.plot_data)
-            interface.display_metadata(self, data.get_attributes())
+            Display.display_image(self, self.main_figure, data.plot_data)
+            Display.display_metadata(self, data.get_attributes())
         except:
-            interface.clear_layout(self)
-            interface.clear_image(self)
+            Display.clear_layout(self)
+            Display.clear_image(self, self.main_figure)

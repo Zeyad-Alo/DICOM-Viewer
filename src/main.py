@@ -1,5 +1,7 @@
 from PyQt5 import QtGui, QtWidgets, uic
 from modules import interface
+from modules.displays import Display
+from modules.size_interpolation import Interpolate
 import sys
 
 
@@ -17,9 +19,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("Image Mixer")
 
         # initialize UI
-
-        interface.init_plot(self)
+        Display.create_main_canvas(self)
+        Display.create_neaarest_neighbor_canvas(self)
+        Display.create_bilinear_canvas(self)
+        # interface.create_plots_canvas(self)
         interface.init_connectors(self)
+        # Interpolate.interpolate_nearest_neighbor()
+
 
 
 def main():
