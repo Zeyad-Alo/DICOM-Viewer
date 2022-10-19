@@ -1,5 +1,4 @@
 import math
-from matplotlib.pyplot import sca
 import numpy as np
 from modules.displays import Display
 import threading
@@ -31,9 +30,13 @@ class Interpolate:
                     new_arr[i][j] = Interpolate.image_array[math.floor(i/scale)][math.floor(j/scale)]
 
             # Resize plot to make it scrollable
-            self.nn_plot.resize(new_arr.shape[0],new_arr.shape[0])
+            self.nn_plot.resize(new_arr.shape[1],new_arr.shape[0])
 
             Display.display_image(self, self.nn_figure, new_arr)
+
+            # Show resized dimensions
+            self.resized_label.setText(str(new_arr.shape[1]) + 'x' + str(new_arr.shape[0]))
+
 
         else: return
 
@@ -79,7 +82,7 @@ class Interpolate:
                     + Dy_next * (Interpolate.image_array[x_prev][y_prev] * Dx_next + Interpolate.image_array[x_next][y_prev] * Dx_prev)
 
             # Resize plots to make it scrollable
-            self.bilinear_plot.resize(new_arr.shape[0],new_arr.shape[0])
+            self.bilinear_plot.resize(new_arr.shape[1],new_arr.shape[0])
 
             Display.display_image(self, self.bilinear_figure, new_arr)
 

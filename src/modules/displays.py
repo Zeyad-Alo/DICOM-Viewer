@@ -1,5 +1,4 @@
 
-from turtle import clear
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QLabel, QScrollArea
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as Canvas
@@ -68,6 +67,9 @@ class Display:
             self.labl.setText(key + str(dict[key]))
 
             self.metadata_layout.addWidget(self.labl)
+
+        # Show original size in 'Resize' tab
+        self.original_label.setText(str(dict['Width: ']) + 'x' + str(dict['Height: ']) + ' \u2794 ')
 
     # CLEARS METADATA LAYOUT
     def clear_layout(self):

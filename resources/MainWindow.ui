@@ -158,6 +158,9 @@ border-color: transparent;</string>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="spacing">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QSlider" name="size_slider">
             <property name="maximumSize">
@@ -193,7 +196,7 @@ QSlider::handle::hover{
              <number>1</number>
             </property>
             <property name="maximum">
-             <number>50</number>
+             <number>160</number>
             </property>
             <property name="sliderPosition">
              <number>10</number>
@@ -241,6 +244,32 @@ QSlider::handle::hover{
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="original_label">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="resized_label">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

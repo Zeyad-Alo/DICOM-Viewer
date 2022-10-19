@@ -1,5 +1,4 @@
 from PyQt5.QtWidgets import QFileDialog
-from modules import interface
 from modules.displays import Display
 from modules import image_data
 from modules.size_interpolation import Interpolate

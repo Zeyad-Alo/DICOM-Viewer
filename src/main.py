@@ -1,8 +1,8 @@
 from PyQt5 import QtGui, QtWidgets, uic
 from modules import interface
 from modules.displays import Display
-from modules.size_interpolation import Interpolate
 import sys
+import os
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -11,20 +11,22 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         ''' Main window constructor'''
 
+        cur_dir = os.path.dirname(__file__)
+        cur_dir = cur_dir.removesuffix('\src')
+
+
         super(MainWindow, self).__init__(*args, **kwargs)
-        uic.loadUi('F:/zeyad/Documents/repos/GitHub/DICOM-Viewer/resources/MainWindow.ui', self)
+        uic.loadUi(f'{cur_dir}/resources/MainWindow.ui', self)
 
         # set the title and icon
-        self.setWindowIcon(QtGui.QIcon('F:/zeyad/Documents/repos/GitHub/DICOM-Viewer/resources/icon.png'))
+        # self.setWindowIcon(QtGui.QIcon('resources/icon.png'))
         self.setWindowTitle("Image Mixer")
 
         # initialize UI
         Display.create_main_canvas(self)
         Display.create_neaarest_neighbor_canvas(self)
         Display.create_bilinear_canvas(self)
-        # interface.create_plots_canvas(self)
         interface.init_connectors(self)
-        # Interpolate.interpolate_nearest_neighbor()
 
 
 
