@@ -29,3 +29,5 @@ def browse_window(self):
         except:
             Display.clear_layout(self)
             Display.clear_image(self, self.main_figure)
+            Display.clear_image(self, self.nn_figure)
+            Display.clear_image(self, self.bilinear_figure)
