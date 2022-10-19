@@ -50,8 +50,8 @@ class Interpolate:
             for i in range(new_w):
                 for j in range(new_h):
                     # Relative coordinates of the pixel in output space
-                    x_out = j / new_w
-                    y_out = i / new_h
+                    x_out = i / new_w
+                    y_out = j / new_h
 
                     # Corresponding absolute coordinates of the pixel in input space
                     x_in = (x_out * in_w)
@@ -75,8 +75,8 @@ class Interpolate:
                     Dx_next = x_next - x_in
                     Dx_prev = 1 - Dx_next; # because next - prev = 1
                     
-                    new_arr[i][j] = Dy_prev * (Interpolate.image_array[y_next][x_prev] * Dx_next + Interpolate.image_array[y_next][x_next] * Dx_prev) \
-                    + Dy_next * (Interpolate.image_array[y_prev][x_prev] * Dx_next + Interpolate.image_array[y_prev][x_next] * Dx_prev)
+                    new_arr[i][j] = Dy_prev * (Interpolate.image_array[x_prev][y_next] * Dx_next + Interpolate.image_array[x_next][y_next] * Dx_prev) \
+                    + Dy_next * (Interpolate.image_array[x_prev][y_prev] * Dx_next + Interpolate.image_array[x_next][y_prev] * Dx_prev)
 
             # Resize plots to make it scrollable
             self.bilinear_plot.resize(new_arr.shape[0],new_arr.shape[0])
