@@ -1,8 +1,16 @@
 
+from turtle import radians
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QLabel, QScrollArea
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as Canvas
 import matplotlib.pylab as plt
+
+
+plt.rcParams['axes.facecolor'] = 'black'
+plt.rc('axes', edgecolor='w')
+plt.rc('xtick', color='w')
+plt.rc('ytick', color='w')
+plt.rcParams["figure.autolayout"] = True
 
 class Display:
 
@@ -36,7 +44,18 @@ class Display:
         self.bl_scroll.setWidget(self.bilinear_plot)
         self.bilinear_box.addWidget(self.bl_scroll)
 
-        
+
+    def create_rotation_canvas(self):
+        self.rotation_figure = plt.figure()
+        self.rotation_figure.patch.set_facecolor('black')
+        self.axes = self.rotation_figure.add_subplot()
+        self.rotation_plot = Canvas(self.rotation_figure)
+        self.t_box.addWidget(self.rotation_plot)
+
+
+        # r = rotation.Rotation(np.zeros( (128,128), dtype=np.uint8))
+        # print(r.t_array)
+        # Display.display_image(self, self.rotation_figure, r.t_array)
         
 
     # Takes in a figure, makes it active and draws
@@ -44,8 +63,8 @@ class Display:
         Display.clear_image(self, figure)
         plt.figure(figure.number)
 
-        if figure == self.main_figure: plt.imshow(data, cmap='gray') # Autofits image in main plot
-        else: plt.figimage(data, cmap='gray')
+        if figure == self.main_figure or figure == self.rotation_figure: plt.imshow(data, interpolation='None', cmap='gray') # Autofits image in main plot
+        else: plt.figimage(data, interpolation='None', cmap='gray')
 
         plt.draw()
 
