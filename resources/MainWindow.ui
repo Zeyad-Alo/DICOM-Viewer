@@ -336,7 +336,7 @@ QGroupBox::title  {
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>Rotate</string>
+        <string>Rotate/Shear</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
@@ -358,21 +358,21 @@ QGroupBox::title  {
           <property name="title">
            <string/>
           </property>
-          <layout class="QGridLayout" name="gridLayout_4">
-           <item row="0" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <layout class="QHBoxLayout" name="horizontalLayout_13">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_10">
              <item>
               <widget class="QGroupBox" name="controls_groupBox">
                <property name="minimumSize">
                 <size>
-                 <width>200</width>
-                 <height>200</height>
+                 <width>0</width>
+                 <height>100</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>300</width>
-                 <height>16777215</height>
+                 <width>16777215</width>
+                 <height>100</height>
                 </size>
                </property>
                <property name="styleSheet">
@@ -380,13 +380,13 @@ QGroupBox::title  {
 border-color: transparent;</string>
                </property>
                <property name="title">
-                <string>Controls</string>
+                <string>Rotate</string>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_4">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_5">
+               <layout class="QGridLayout" name="gridLayout_4">
+                <item row="0" column="0">
+                 <layout class="QHBoxLayout" name="horizontalLayout_4">
                   <item>
-                   <spacer name="horizontalSpacer_3">
+                   <spacer name="horizontalSpacer_4">
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -399,9 +399,17 @@ border-color: transparent;</string>
                    </spacer>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="construct_button">
-                    <property name="styleSheet">
-                     <string notr="true">QPushButton {
+                   <layout class="QVBoxLayout" name="verticalLayout_5">
+                    <item>
+                     <widget class="QPushButton" name="r_construct_button">
+                      <property name="minimumSize">
+                       <size>
+                        <width>200</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton {
     border-radius: 5px;
     border-style: outset;
     background: rgb(12, 17, 24);
@@ -416,28 +424,34 @@ QPushButton:pressed {
     border-style: inset;
     background:rgb(20, 20, 20)
     }</string>
-                    </property>
-                    <property name="text">
-                     <string>Construct</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QWidget" name="controls_widget" native="true">
-                    <layout class="QVBoxLayout" name="controls_verticalLayout">
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_5">
+                      </property>
+                      <property name="text">
+                       <string>Construct</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QWidget" name="r_controls_widget" native="true">
+                      <layout class="QVBoxLayout" name="controls_verticalLayout">
                        <item>
-                        <widget class="QLabel" name="label_3">
-                         <property name="text">
-                          <string>Interpolation:</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QComboBox" name="interpolation_comboBox">
-                         <property name="styleSheet">
-                          <string notr="true">QComboBox
+                        <layout class="QHBoxLayout" name="horizontalLayout_5">
+                         <item>
+                          <widget class="QLabel" name="label_3">
+                           <property name="text">
+                            <string>Interpolation:</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QComboBox" name="r_interpolation_comboBox">
+                           <property name="minimumSize">
+                            <size>
+                             <width>120</width>
+                             <height>0</height>
+                            </size>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">QComboBox
 {
 	border-radius: 3px;
 	background-color: rgb(13, 17, 23);
@@ -459,33 +473,39 @@ QComboBox QAbstractItemView
 {
     selection-background-color: transparent;
 }</string>
-                         </property>
-                         <item>
-                          <property name="text">
-                           <string>Nearest Neighbor</string>
-                          </property>
+                           </property>
+                           <item>
+                            <property name="text">
+                             <string>Nearest Neighbor</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Bilinear</string>
+                            </property>
+                           </item>
+                          </widget>
                          </item>
-                         <item>
-                          <property name="text">
-                           <string>Bilinear</string>
-                          </property>
-                         </item>
-                        </widget>
+                        </layout>
                        </item>
-                      </layout>
-                     </item>
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_6">
                        <item>
-                        <widget class="QSlider" name="rotation_slider">
-                         <property name="maximumSize">
-                          <size>
-                           <width>200</width>
-                           <height>16777215</height>
-                          </size>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">QSlider{
+                        <layout class="QHBoxLayout" name="horizontalLayout_6">
+                         <item>
+                          <widget class="QSlider" name="rotation_slider">
+                           <property name="minimumSize">
+                            <size>
+                             <width>200</width>
+                             <height>0</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>200</width>
+                             <height>16777215</height>
+                            </size>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">QSlider{
     background-color: transparent;
 }
 
@@ -506,48 +526,63 @@ QSlider::handle::hover{
         cx: 0.7, cy: 1.4, fx: 0.7, fy: 1.4,
         radius: 1, stop: 0 #bbb, stop: 1 #000
         );}</string>
-                         </property>
-                         <property name="minimum">
-                          <number>-360</number>
-                         </property>
-                         <property name="maximum">
-                          <number>360</number>
-                         </property>
-                         <property name="sliderPosition">
-                          <number>0</number>
-                         </property>
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLCDNumber" name="rotation_lcd">
-                         <property name="maximumSize">
-                          <size>
-                           <width>16777215</width>
-                           <height>24</height>
-                          </size>
-                         </property>
-                         <property name="intValue" stdset="0">
-                          <number>0</number>
-                         </property>
-                        </widget>
+                           </property>
+                           <property name="minimum">
+                            <number>-360</number>
+                           </property>
+                           <property name="maximum">
+                            <number>360</number>
+                           </property>
+                           <property name="sliderPosition">
+                            <number>0</number>
+                           </property>
+                           <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                           </property>
+                           <property name="tickPosition">
+                            <enum>QSlider::TicksBelow</enum>
+                           </property>
+                           <property name="tickInterval">
+                            <number>60</number>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QLCDNumber" name="rotation_lcd">
+                           <property name="maximumSize">
+                            <size>
+                             <width>16777215</width>
+                             <height>24</height>
+                            </size>
+                           </property>
+                           <property name="intValue" stdset="0">
+                            <number>0</number>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QLabel" name="direction_label">
+                           <property name="text">
+                            <string/>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
                        </item>
                       </layout>
-                     </item>
-                    </layout>
-                   </widget>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item>
-                   <spacer name="verticalSpacer_2">
+                   <spacer name="horizontalSpacer_6">
                     <property name="orientation">
-                     <enum>Qt::Vertical</enum>
+                     <enum>Qt::Horizontal</enum>
                     </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>20</width>
-                      <height>40</height>
+                      <width>40</width>
+                      <height>20</height>
                      </size>
                     </property>
                    </spacer>
@@ -558,7 +593,7 @@ QSlider::handle::hover{
               </widget>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="t_box">
+              <layout class="QVBoxLayout" name="t_box_r">
                <property name="spacing">
                 <number>10</number>
                </property>
@@ -566,8 +601,237 @@ QSlider::handle::hover{
              </item>
             </layout>
            </item>
-           <item row="3" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_4"/>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <item>
+              <widget class="QGroupBox" name="controls_groupBox_2">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: black;
+border-color: transparent;</string>
+               </property>
+               <property name="title">
+                <string>Shear</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_6">
+                <item row="0" column="0">
+                 <layout class="QHBoxLayout" name="horizontalLayout_7">
+                  <item>
+                   <spacer name="horizontalSpacer_7">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_6">
+                    <item>
+                     <widget class="QPushButton" name="s_construct_button">
+                      <property name="minimumSize">
+                       <size>
+                        <width>200</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton {
+    border-radius: 5px;
+    border-style: outset;
+    background: rgb(12, 17, 24);
+	padding: 3;
+    }
+
+QPushButton:hover {
+    background: rgb(63, 95, 127)
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background:rgb(20, 20, 20)
+    }</string>
+                      </property>
+                      <property name="text">
+                       <string>Construct</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QWidget" name="s_controls_widget" native="true">
+                      <layout class="QVBoxLayout" name="controls_verticalLayout_2">
+                       <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout_11">
+                         <item>
+                          <widget class="QLabel" name="label_4">
+                           <property name="text">
+                            <string>Interpolation:</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QComboBox" name="s_interpolation_comboBox">
+                           <property name="minimumSize">
+                            <size>
+                             <width>120</width>
+                             <height>0</height>
+                            </size>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">QComboBox
+{
+	border-radius: 3px;
+	background-color: rgb(13, 17, 23);
+}
+
+QComboBox::drop-down
+{
+	border-left-color: transparent;
+ }
+
+QComboBox::down-arrow, QSpinBox::down-arrow, QTimeEdit::down-arrow, QDateEdit::down-arrow
+{
+     image: url(:/icons/Arrowhead-nottop-256.png);
+     width: 7px;
+     height: 6px;
+}
+
+QComboBox QAbstractItemView
+{
+    selection-background-color: transparent;
+}</string>
+                           </property>
+                           <item>
+                            <property name="text">
+                             <string>Nearest Neighbor</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Bilinear</string>
+                            </property>
+                           </item>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                       <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout_12">
+                         <item>
+                          <widget class="QSlider" name="shear_slider">
+                           <property name="minimumSize">
+                            <size>
+                             <width>200</width>
+                             <height>0</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>200</width>
+                             <height>16777215</height>
+                            </size>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">QSlider{
+    background-color: transparent;
+}
+
+QSlider::handle {
+    background-color: qradialgradient(
+        cx: 0.7, cy: 1.4, fx: 0.7, fy: 1.4,
+        radius: 1, stop: 0 #fff, stop: 1 #424242
+        );
+	border-radius: 2px;
+    height: 40px;
+    width: 40px;
+    margin: -15px 0px;
+    }
+
+QSlider::handle::hover{
+	border: inset;
+	 background-color: qradialgradient(
+        cx: 0.7, cy: 1.4, fx: 0.7, fy: 1.4,
+        radius: 1, stop: 0 #bbb, stop: 1 #000
+        );}</string>
+                           </property>
+                           <property name="minimum">
+                            <number>-45</number>
+                           </property>
+                           <property name="maximum">
+                            <number>45</number>
+                           </property>
+                           <property name="sliderPosition">
+                            <number>0</number>
+                           </property>
+                           <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                           </property>
+                           <property name="tickPosition">
+                            <enum>QSlider::TicksBelow</enum>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QLCDNumber" name="shear_lcd">
+                           <property name="maximumSize">
+                            <size>
+                             <width>16777215</width>
+                             <height>24</height>
+                            </size>
+                           </property>
+                           <property name="intValue" stdset="0">
+                            <number>0</number>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_8">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="t_box_s">
+               <property name="spacing">
+                <number>10</number>
+               </property>
+              </layout>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>

@@ -2,7 +2,7 @@ from PyQt5.QtGui import *
 from numpy import rot90
 from modules import openfile
 from modules.size_interpolation import Interpolate
-from modules.rotation import Rotation
+from modules.rotation_shear import RotationShear
 import numpy as np
 
 
@@ -22,28 +22,44 @@ def init_connectors(self):
 
 
     # Rotation
-    self.controls_widget.hide()
+    self.r_controls_widget.hide()
 
-    self.construct_button.clicked.connect(
-        lambda: Rotation.construct_t(self)
+    self.r_construct_button.clicked.connect(
+        lambda: RotationShear.construct_t(self, 'r')
     )
-    self.construct_button.clicked.connect(
-        lambda: self.construct_button.hide()
+    self.r_construct_button.clicked.connect(
+        lambda: self.r_construct_button.hide()
     )
-    self.construct_button.clicked.connect(
-        lambda: self.controls_widget.show()
+    self.r_construct_button.clicked.connect(
+        lambda: self.r_controls_widget.show()
     )
     
     self.rotation_slider.valueChanged.connect(
         lambda: self.rotation_lcd.display(self.rotation_slider.value()))
     self.rotation_slider.valueChanged.connect(
-        lambda: Rotation.rotate(self, self.rotation_slider.value(), self.interpolation_comboBox.currentText()))
+        lambda: RotationShear.rotate(self, self.rotation_slider.value(), self.r_interpolation_comboBox.currentText()))
 
-    self.interpolation_comboBox.currentIndexChanged.connect(
-        lambda: Rotation.rotate(self, self.rotation_slider.value(), self.interpolation_comboBox.currentText()))
+    self.r_interpolation_comboBox.currentIndexChanged.connect(
+        lambda: RotationShear.rotate(self, self.rotation_slider.value(), self.r_interpolation_comboBox.currentText()))
 
-    # self.rotation_slider.valueChanged.connect(
-    #     lambda: Rotation.shear(self, self.rotation_slider.value() / 10, self.interpolation_comboBox.currentText()))
 
-    # self.interpolation_comboBox.currentIndexChanged.connect(
-    #     lambda: Rotation.shear(self, self.rotation_slider.value() / 10, self.interpolation_comboBox.currentText()))
+    # Shear
+    self.s_controls_widget.hide()
+
+    self.s_construct_button.clicked.connect(
+        lambda: RotationShear.construct_t(self, 's')
+    )
+    self.s_construct_button.clicked.connect(
+        lambda: self.s_construct_button.hide()
+    )
+    self.s_construct_button.clicked.connect(
+        lambda: self.s_controls_widget.show()
+    )
+    
+    self.shear_slider.valueChanged.connect(
+        lambda: self.shear_lcd.display(self.shear_slider.value()))
+    self.shear_slider.valueChanged.connect(
+        lambda: RotationShear.shear(self, self.shear_slider.value(), self.s_interpolation_comboBox.currentText()))
+
+    self.s_interpolation_comboBox.currentIndexChanged.connect(
+        lambda: RotationShear.shear(self, self.shear_slider.value(), self.s_interpolation_comboBox.currentText()))

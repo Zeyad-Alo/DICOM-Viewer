@@ -50,12 +50,14 @@ class Display:
         self.rotation_figure.patch.set_facecolor('black')
         self.axes = self.rotation_figure.add_subplot()
         self.rotation_plot = Canvas(self.rotation_figure)
-        self.t_box.addWidget(self.rotation_plot)
-
-
-        # r = rotation.Rotation(np.zeros( (128,128), dtype=np.uint8))
-        # print(r.t_array)
-        # Display.display_image(self, self.rotation_figure, r.t_array)
+        self.t_box_r.addWidget(self.rotation_plot)
+        
+    def create_shear_canvas(self):
+        self.shear_figure = plt.figure()
+        self.shear_figure.patch.set_facecolor('black')
+        self.axes = self.shear_figure.add_subplot()
+        self.shear_plot = Canvas(self.shear_figure)
+        self.t_box_s.addWidget(self.shear_plot)
         
 
     # Takes in a figure, makes it active and draws
@@ -63,8 +65,8 @@ class Display:
         Display.clear_image(self, figure)
         plt.figure(figure.number)
 
-        if figure == self.main_figure or figure == self.rotation_figure: plt.imshow(data, interpolation='None', cmap='gray') # Autofits image in main plot
-        else: plt.figimage(data, interpolation='None', cmap='gray')
+        if figure == self.nn_figure or figure == self.bilinear_figure: plt.figimage(data, interpolation='None', cmap='gray')
+        else: plt.imshow(data, interpolation='None', cmap='gray') # Autofits image in main plot
 
         plt.draw()
 
