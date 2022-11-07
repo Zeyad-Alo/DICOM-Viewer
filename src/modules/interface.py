@@ -3,7 +3,7 @@ from numpy import rot90
 from modules import openfile
 from modules.size_interpolation import Interpolate
 from modules.rotation_shear import RotationShear
-import numpy as np
+from modules.rotation_shear import RotationShear
 
 
 # UI connectors
@@ -63,3 +63,14 @@ def init_connectors(self):
 
     self.s_interpolation_comboBox.currentIndexChanged.connect(
         lambda: RotationShear.shear(self, self.shear_slider.value(), self.s_interpolation_comboBox.currentText()))
+
+
+    self.equalize_button.clicked.connect(
+        lambda: self.histo.equalize(self)
+    )
+    # self.equalize_button.clicked.connect(
+    #     lambda: self.disp.display_image(self.equalized_eq_figure, self.histo.equalized_image_array)
+    # )
+    # self.equalize_button.clicked.connect(
+    #     lambda: self.disp.display_histo(self.equalized_histo_figure, self.histo.equalized_histogram_array)
+    # )

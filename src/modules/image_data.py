@@ -8,6 +8,7 @@ import math
 class ImageData:
     plot_data = []
     grayscale_img = []
+    grayscale_depth = 256
 
     def __init__(self, path):
         self.path = path
@@ -19,6 +20,8 @@ class ImageData:
             self.import_dicom()
         else:
             self.import_general()
+
+        self.grayscale_depth = 2 ** math.ceil(math.log(np.amax(self.grayscale_img) + 1, 2))
 
 
     # READ AS DICOM AND CONFIGURE ATTRIBUTES

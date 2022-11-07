@@ -52,7 +52,7 @@ class RotationShear:
                 else:
                     x += mid_x
                     y += mid_y
-                    # Calling biinear in terpolation
+                    # Calling biinear interpolation
                     interpolated = Interpolate.interpolate_bilinear(self, x, y, width, height, RotationShear.t_array)
 
                 # Crop out of original bounds pixels

@@ -4,6 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QLabel, QScrollArea
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as Canvas
 import matplotlib.pylab as plt
+import numpy as np
 
 
 plt.rcParams['axes.facecolor'] = 'black'
@@ -14,14 +15,27 @@ plt.rcParams["figure.autolayout"] = True
 
 class Display:
 
-    # CREATE BASE MATPLOTLIB CANVASES - CALLED ONCE ON LAUNCH
+    mw = None
 
+    # CREATE BASE MATPLOTLIB CANVASES - CALLED ONCE ON LAUNCH
+    def __init__(self, mw):
+        self.mw = mw
+        Display.create_main_canvas(self.mw)
+        Display.create_neaarest_neighbor_canvas(self.mw)
+        Display.create_bilinear_canvas(self.mw)
+        Display.create_rotation_canvas(self.mw)
+        Display.create_shear_canvas(self.mw)
+        Display.create_equalization_canvas(self.mw)
+
+        # Main
     def create_main_canvas(self):
         self.main_figure = plt.figure()
         self.main_figure.patch.set_facecolor('black')
         self.main_plot = Canvas(self.main_figure)
         self.image_box.addWidget(self.main_plot)
 
+
+        # Resize
     def create_neaarest_neighbor_canvas(self):
         self.nn_scroll = QScrollArea()
         self.nn_scroll.setStyleSheet("background-color: black")
@@ -45,6 +59,7 @@ class Display:
         self.bilinear_box.addWidget(self.bl_scroll)
 
 
+        # Rotation and shear
     def create_rotation_canvas(self):
         self.rotation_figure = plt.figure()
         self.rotation_figure.patch.set_facecolor('black')
@@ -58,11 +73,33 @@ class Display:
         self.axes = self.shear_figure.add_subplot()
         self.shear_plot = Canvas(self.shear_figure)
         self.t_box_s.addWidget(self.shear_plot)
+
+
+    def create_equalization_canvas(self):
+        self.original_eq_figure = plt.figure()
+        self.original_eq_figure.patch.set_facecolor('black')
+        self.original_eq_plot = Canvas(self.original_eq_figure)
+        self.original_image_box_e.addWidget(self.original_eq_plot)
+
+        self.equalized_eq_figure = plt.figure()
+        self.equalized_eq_figure.patch.set_facecolor('black')
+        self.equalized_eq_plot = Canvas(self.equalized_eq_figure)
+        self.equalized_image_box.addWidget(self.equalized_eq_plot)
+
+        self.original_histo_figure = plt.figure()
+        self.original_histo_figure.patch.set_facecolor('black')
+        self.original_histo_plot = Canvas(self.original_histo_figure)
+        self.original_histo_box.addWidget(self.original_histo_plot)
+
+        self.equalized_histo_figure = plt.figure()
+        self.equalized_histo_figure.patch.set_facecolor('black')
+        self.equalized_histo_plot = Canvas(self.equalized_histo_figure)
+        self.equalized_histo_box.addWidget(self.equalized_histo_plot)
         
 
     # Takes in a figure, makes it active and draws
     def display_image(self, figure, data):
-        Display.clear_image(self, figure)
+        Display.clear_image(figure)
         plt.figure(figure.number)
 
         if figure == self.nn_figure or figure == self.bilinear_figure: plt.figimage(data, interpolation='None', cmap='gray')
@@ -70,12 +107,16 @@ class Display:
 
         plt.draw()
 
-    def clear_image(self, figure):
+    def clear_image(figure):
         plt.figure(figure.number)
         plt.clf()
         plt.draw()
 
-
+    def display_histo(figure, data, depth = 256):
+        Display.clear_image(figure)
+        plt.figure(figure.number)
+        plt.bar(np.arange(depth), height=data)
+        plt.draw()
 
 
     def display_metadata(self, dict):

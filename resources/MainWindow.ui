@@ -38,7 +38,7 @@ background-color: rgb(13, 17, 23);</string>
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -831,6 +831,128 @@ QSlider::handle::hover{
                </property>
               </layout>
              </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_4">
+       <attribute name="title">
+        <string>Equalization</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="equalize_button">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+    border-radius: 5px;
+    border-style: outset;
+    background: rgb(12, 17, 24);
+	padding: 3;
+    }
+
+QPushButton:hover {
+    background: rgb(63, 95, 127)
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background:rgb(20, 20, 20)
+    }</string>
+            </property>
+            <property name="text">
+             <string>Equalize</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="main_groupBox_4">
+          <property name="styleSheet">
+           <string notr="true">QGroupBox {
+background-color: rgb(13, 17, 23);
+border: 1.2px solid #ffffff;
+border-style: outset;
+border-radius: 15px;
+}
+QGroupBox::title  {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: -5px 0px 0px 0px;
+    color: rgb(255, 255, 255);
+}</string>
+          </property>
+          <property name="title">
+           <string>Original</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <layout class="QVBoxLayout" name="original_image_box_e">
+             <property name="spacing">
+              <number>10</number>
+             </property>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="original_histo_box">
+             <property name="spacing">
+              <number>10</number>
+             </property>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="main_groupBox_5">
+          <property name="styleSheet">
+           <string notr="true">QGroupBox {
+background-color: rgb(13, 17, 23);
+border: 1.2px solid #ffffff;
+border-style: outset;
+border-radius: 15px;
+}
+QGroupBox::title  {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: -5px 0px 0px 0px;
+    color: rgb(255, 255, 255);
+}</string>
+          </property>
+          <property name="title">
+           <string>Equalized</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
+            <layout class="QVBoxLayout" name="equalized_image_box">
+             <property name="spacing">
+              <number>10</number>
+             </property>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="equalized_histo_box">
+             <property name="spacing">
+              <number>10</number>
+             </property>
             </layout>
            </item>
           </layout>

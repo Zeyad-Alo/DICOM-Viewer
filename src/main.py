@@ -23,11 +23,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("Image Mixer")
 
         # initialize UI
-        Display.create_main_canvas(self)
-        Display.create_neaarest_neighbor_canvas(self)
-        Display.create_bilinear_canvas(self)
-        Display.create_rotation_canvas(self)
-        Display.create_shear_canvas(self)
+        self.disp = Display(self)
         interface.init_connectors(self)
 
 
