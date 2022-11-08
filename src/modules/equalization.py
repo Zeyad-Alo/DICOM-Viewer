@@ -52,7 +52,7 @@ class HistogramEqualizer:
         cdf = self.calculate_cdf()
 
         # Lookup map/table that returns the equalized value
-        equalizer_map = np.round((self.depth - 1) * cdf).astype(np.uint8)
+        equalizer_map = np.round((self.depth - 1) * cdf).astype(np.uint)
 
         # Pass in original pixel values to equalizer_map, returning the equalized values
         eq_flat = [equalizer_map[pixel] for pixel in self.image_array.flatten()]
