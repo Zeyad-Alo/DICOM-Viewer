@@ -4,6 +4,7 @@ from modules import image_data
 from modules.size_interpolation import Interpolate
 import numpy as np
 from modules.equalization import HistogramEqualizer
+from modules.spatial_filtering import Unsharp
 import matplotlib.pylab as plt
 
 def browse_window(self):
@@ -31,6 +32,12 @@ def browse_window(self):
         Display.display_histo(self.original_histo_figure, self.histo.histogram_array, self.data.grayscale_depth)
         Display.clear_image(self.equalized_eq_figure)
         Display.clear_image(self.equalized_histo_figure)
+
+        self.unsharp = Unsharp(self.data.grayscale_img)
+        # self.unsharp.n_filter = 3
+        # arr=self.unsharp.unsharp_filter()
+        # Display.display_image(self, self.unsharp_figure, arr)
+        # plt.axis('off')
 
 
         

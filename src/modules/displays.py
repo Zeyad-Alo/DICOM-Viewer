@@ -26,6 +26,8 @@ class Display:
         Display.create_rotation_canvas(self.mw)
         Display.create_shear_canvas(self.mw)
         Display.create_equalization_canvas(self.mw)
+        Display.create_unsharp_canvas(self.mw)
+        Display.create_salt_canvas(self.mw)
 
         # Main
     def create_main_canvas(self):
@@ -95,6 +97,20 @@ class Display:
         self.equalized_histo_figure.patch.set_facecolor('black')
         self.equalized_histo_plot = Canvas(self.equalized_histo_figure)
         self.equalized_histo_box.addWidget(self.equalized_histo_plot)
+
+
+    # Spatial Filtering
+    def create_unsharp_canvas(self):
+        self.unsharp_figure = plt.figure()
+        self.unsharp_figure.patch.set_facecolor('black')
+        self.unsharp_plot = Canvas(self.unsharp_figure)
+        self.unsharp_box.addWidget(self.unsharp_plot)
+
+    def create_salt_canvas(self):
+        self.salt_figure = plt.figure()
+        self.salt_figure.patch.set_facecolor('black')
+        self.salt_plot = Canvas(self.salt_figure)
+        self.salt_box.addWidget(self.salt_plot)
         
 
     # Takes in a figure, makes it active and draws

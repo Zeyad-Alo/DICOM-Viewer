@@ -3,7 +3,7 @@ from numpy import rot90
 from modules import openfile
 from modules.size_interpolation import Interpolate
 from modules.rotation_shear import RotationShear
-from modules.rotation_shear import RotationShear
+from modules.spatial_filtering import Unsharp
 
 
 # UI connectors
@@ -74,3 +74,17 @@ def init_connectors(self):
     # self.equalize_button.clicked.connect(
     #     lambda: self.disp.display_histo(self.equalized_histo_figure, self.histo.equalized_histogram_array)
     # )
+
+
+    # Spatial Filtering
+    self.salt_controls_widget.hide()
+
+    self.unsharp_slider.valueChanged.connect(
+        lambda: self.unsharp_lcd.display(self.unsharp_slider.value()))
+
+    self.boost_slider.valueChanged.connect(
+        lambda: self.boost_lcd.display(self.boost_slider.value()))
+
+    self.unsharp_button.clicked.connect(
+        lambda: self.unsharp.unsharp_filter(self, self.unsharp_slider.value(), self.boost_slider.value())
+    )
