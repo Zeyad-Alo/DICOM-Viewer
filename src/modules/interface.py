@@ -3,7 +3,6 @@ from numpy import rot90
 from modules import openfile
 from modules.size_interpolation import Interpolate
 from modules.rotation_shear import RotationShear
-from modules.spatial_filtering import Unsharp
 
 
 # UI connectors
@@ -78,13 +77,34 @@ def init_connectors(self):
 
     # Spatial Filtering
     self.salt_controls_widget.hide()
+    self.unsharp_button.setEnabled(False)
+    self.noise_button.setEnabled(False)
 
     self.unsharp_slider.valueChanged.connect(
         lambda: self.unsharp_lcd.display(self.unsharp_slider.value()))
 
     self.boost_slider.valueChanged.connect(
-        lambda: self.boost_lcd.display(self.boost_slider.value()))
+        lambda: self.boost_lcd.display(self.boost_slider.value() / 10))
 
     self.unsharp_button.clicked.connect(
-        lambda: self.unsharp.unsharp_filter(self, self.unsharp_slider.value(), self.boost_slider.value())
+        lambda: self.unsharp.unsharp_masking(self, self.unsharp_slider.value(), self.boost_slider.value() / 10)
+    )
+
+    self.noise_button.clicked.connect(
+        lambda: self.salt.add_saltandpepper(self)
+    )
+
+    self.noise_button.clicked.connect(
+        lambda: self.noise_button.hide()
+    )
+
+    self.noise_button.clicked.connect(
+        lambda: self.salt_controls_widget.show()
+    )
+
+    self.salt_slider.valueChanged.connect(
+        lambda: self.salt_lcd.display(self.salt_slider.value()))
+
+    self.salt_button.clicked.connect(
+        lambda: self.salt.apply_median_filter(self, self.salt_slider.value())
     )

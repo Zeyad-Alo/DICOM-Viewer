@@ -119,7 +119,7 @@ class Display:
         plt.figure(figure.number)
 
         if figure == self.nn_figure or figure == self.bilinear_figure: plt.figimage(data, interpolation='None', cmap='gray')
-        else: plt.imshow(data, interpolation='None', cmap='gray') # Autofits image in main plot
+        else: plt.imshow(data, interpolation='None', cmap='gray', vmin=0, vmax=255) # Autofits image in main plot
 
         plt.draw()
 

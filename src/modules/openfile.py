@@ -4,7 +4,7 @@ from modules import image_data
 from modules.size_interpolation import Interpolate
 import numpy as np
 from modules.equalization import HistogramEqualizer
-from modules.spatial_filtering import Unsharp
+from modules.spatial_filtering import UnsharpMasking, ImpulseNoise
 import matplotlib.pylab as plt
 
 def browse_window(self):
@@ -33,11 +33,16 @@ def browse_window(self):
         Display.clear_image(self.equalized_eq_figure)
         Display.clear_image(self.equalized_histo_figure)
 
-        self.unsharp = Unsharp(self.data.grayscale_img)
-        # self.unsharp.n_filter = 3
-        # arr=self.unsharp.unsharp_filter()
-        # Display.display_image(self, self.unsharp_figure, arr)
-        # plt.axis('off')
+
+        self.unsharp_button.setEnabled(True)
+        self.noise_button.setEnabled(True)
+        self.unsharp = UnsharpMasking(self.data.grayscale_img)
+        Display.display_image(self, self.unsharp_figure, self.unsharp.image_array)
+        plt.axis('off')
+
+        self.salt = ImpulseNoise(self.data.grayscale_img)
+        Display.display_image(self, self.salt_figure, self.salt.image_array)
+        plt.axis('off')
 
 
         
