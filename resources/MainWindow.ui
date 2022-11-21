@@ -1390,7 +1390,7 @@ QSlider::handle::hover{
                       <number>1</number>
                      </property>
                      <property name="maximum">
-                      <number>100</number>
+                      <number>200</number>
                      </property>
                      <property name="singleStep">
                       <number>1</number>
@@ -1408,7 +1408,7 @@ QSlider::handle::hover{
                       <enum>QSlider::TicksBelow</enum>
                      </property>
                      <property name="tickInterval">
-                      <number>5</number>
+                      <number>10</number>
                      </property>
                     </widget>
                    </item>

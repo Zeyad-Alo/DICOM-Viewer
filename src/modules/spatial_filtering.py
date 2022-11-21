@@ -67,8 +67,9 @@ class UnsharpMasking:
         # Add difference to original with highboost factor
         unsharp = self.image_array + k * diff
 
-        # Scale to retain 0-255 intensity range
-        unsharp = self.intensity_scaling(unsharp)
+        # Scale to retain 0-255 intensity range OR Clip out of range pixels to thresholds
+        # unsharp = self.intensity_scaling(unsharp)
+        unsharp = self.intensity_clipping(unsharp)
 
         Display.display_image(mw, mw.unsharp_figure, unsharp)
         plt.axis('off')
@@ -88,11 +89,21 @@ class UnsharpMasking:
         return sum
 
 
+    '''
+    To handle intensity values going out of range, we can either
+    scale all intensities into range, or clip out of range ones.
+    However, clipping produces better looking results and sharper images.
+    '''
     def intensity_scaling(self, arr):
         # Shift all intensities so that min value --> 0
         arr = arr - np.amin(arr)
         # Normalize intesities and scale them to max of 255
         arr = np.round((arr / np.amax(arr)) * 255)
+        return arr
+
+    def intensity_clipping(self, arr):
+        arr[arr < 0] = 0
+        arr[arr > 255] = 255
         return arr
 
 
