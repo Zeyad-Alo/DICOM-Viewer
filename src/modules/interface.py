@@ -81,6 +81,9 @@ def init_connectors(self):
     self.noise_button.setEnabled(False)
 
     self.unsharp_slider.valueChanged.connect(
+        lambda: self.unsharp_slider.setValue(check_slider_val(self.unsharp_slider.value())))
+
+    self.unsharp_slider.valueChanged.connect(
         lambda: self.unsharp_lcd.display(self.unsharp_slider.value()))
 
     self.boost_slider.valueChanged.connect(
@@ -91,7 +94,7 @@ def init_connectors(self):
     )
 
     self.noise_button.clicked.connect(
-        lambda: self.salt.add_saltandpepper(self)
+        lambda: self.salt.add_saltandpepper(self, self.noise_percentage_spinBox.value() / 100)
     )
 
     self.noise_button.clicked.connect(
@@ -99,8 +102,15 @@ def init_connectors(self):
     )
 
     self.noise_button.clicked.connect(
+        lambda: self.noise_percentage_spinBox.hide()
+    )
+
+    self.noise_button.clicked.connect(
         lambda: self.salt_controls_widget.show()
     )
+
+    self.salt_slider.valueChanged.connect(
+        lambda: self.salt_slider.setValue(check_slider_val(self.salt_slider.value())))
 
     self.salt_slider.valueChanged.connect(
         lambda: self.salt_lcd.display(self.salt_slider.value()))
@@ -108,3 +118,8 @@ def init_connectors(self):
     self.salt_button.clicked.connect(
         lambda: self.salt.apply_median_filter(self, self.salt_slider.value())
     )
+
+    def check_slider_val(value):
+        if value % 2 == 0:
+            return value - 1
+        return value

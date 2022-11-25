@@ -11,15 +11,22 @@ class UnsharpMasking:
     def __init__(self, array):
         self.image_array = array
 
-    def pad_image(self):
+    def pad_image(self, arr, kernel):
         '''
         Adds zero padding to image to accomodate for kernel size
         '''
-        # Number of pad rows/columns needed around image
-        pad = self.unsharp_kernel_size // 2
+        # Offset of image placement inside padded array
+        offset = kernel // 2
+
+        # Padded array's dimensions
+        new_arr_width = arr.shape[1] + kernel - 1
+        new_arr_height = arr.shape[0] + kernel - 1
         
-        # Pad image and return in new array
-        padded_array = np.pad(self.image_array, [(pad, pad), (pad, pad)], mode='constant', constant_values=0)
+        # Initialize empty array
+        padded_array = np.zeros(shape=(new_arr_height, new_arr_width), dtype=np.uint)
+
+        # Insert image into padded array
+        padded_array[offset:offset+arr.shape[0], offset:offset+arr.shape[1]] = arr
         return padded_array
 
 
@@ -31,7 +38,7 @@ class UnsharpMasking:
         box_kernel = np.ones(shape=(self.unsharp_kernel_size,self.unsharp_kernel_size))
 
         # Get padded image
-        padded_array = self.pad_image()
+        padded_array = self.pad_image(self.image_array, self.unsharp_kernel_size)
 
         # Initialize output array
         output_array = np.zeros(self.image_array.shape)
@@ -120,7 +127,7 @@ class ImpulseNoise:
         self.image_array = array
         self.salty_image_array = np.zeros(shape=self.image_array.shape, dtype=np.uint)
 
-    def add_saltandpepper(self, mw):
+    def add_saltandpepper(self, mw, weight):
         '''
         Randomly adds salt and pepper noise over image
         '''
@@ -128,9 +135,7 @@ class ImpulseNoise:
         for i in range(self.image_array.shape[0]):
             for j in range(self.image_array.shape[1]):
 
-                add_noise = random.randint(0,1)     # Whether to add noise in this pixel or leave it as is
-
-                if add_noise == 1:
+                if random.uniform(0,1) < weight:
                     noise_value = random.randint(0,1)       # Whether to add salt or pepper
                     self.salty_image_array[i][j] = noise_value * 255
                 else:
@@ -140,25 +145,13 @@ class ImpulseNoise:
         plt.axis('off')
 
 
-    def pad_image(self, size):
-        '''
-        Adds zero padding to image to accomodate for kernel size
-        '''
-        # Number of pad rows/columns needed around image
-        pad = size // 2
-        
-        # Pad image and return in new array
-        padded_array = np.pad(self.salty_image_array, [(pad, pad), (pad, pad)], mode='constant', constant_values=0)
-        return padded_array
-
-
     def apply_median_filter(self, mw, size):
 
         # Initialize output array
         out_array = np.zeros(shape=self.salty_image_array.shape, dtype=np.uint)
 
         # Get padded image
-        padded_array = self.pad_image(size)
+        padded_array = UnsharpMasking.pad_image(self, self.salty_image_array, size)
 
         # Offsets of start and end of original image with respect to padded image
         offset = size // 2
@@ -168,8 +161,67 @@ class ImpulseNoise:
         # Loop over padded image and calculate output of median filter at each pixel
         for x in range(offset, rows_stop):
             for y in range(offset, col_stop):
-                mask = padded_array[x-offset:x+offset+1, y-offset:y+offset+1]       # This is the local sub-image that lies under the kernel
-                out_array[x-offset][y-offset] = np.median(mask.flatten())
+                local = padded_array[x-offset:x+offset+1, y-offset:y+offset+1]       # This is the local sub-image that lies under the kernel
+                
+                # Sort local sub-image and replace pixel with median
+                b = local.flatten()
+                merge_sort(local.flatten(), b, 0, len(local.flatten()) - 1)
+                out_array[x-offset][y-offset] = b[len(b) // 2]
 
         Display.display_image(mw, mw.salt_figure, out_array)
         plt.axis('off')
+
+
+
+
+def merge_sort(a, b, left, right):
+    '''
+    Uses divide and conquer merge sort algorithm to effeciently count number of inversions,
+    improves time complexity to O(nlogn)
+    '''
+    
+    # Return if size becomes <= 1
+    if right <= left:
+        return
+
+    # Find midpoint
+    mid = (left + right)//2
+
+    # Split array recursively into halves and merge them upwards again
+    merge_sort(a, b, left, mid)
+    merge_sort(a, b, mid + 1, right)
+    merge(a, b, left, mid, right)
+
+
+def merge(a, b, left, mid, right):
+    i = left     # Starting index of left subarray
+    j = mid + 1  # Starting index of right subarray
+    k = left
+ 
+    while i <= mid and j <= right:    # Make sure i and j do not exceed array limits
+    
+        # Compare elements, invert if needed, and increment to the next element
+        if a[i] <= a[j]:
+            b[k] = a[i]
+            i += 1
+        else:
+            # Count inversion
+            b[k] = a[j]
+            j += 1
+ 
+        k += 1
+
+    # Copy the remaining elements of left and right arrays to the temp array
+    while i <= mid:
+        b[k] = a[i]
+        k += 1
+        i += 1
+
+    while j <= right:
+        b[k] = a[j]
+        k += 1
+        j += 1
+ 
+    # Copy the sorted subarray into the original array
+    for i in range(left, right + 1):
+        a[i] = b[i]

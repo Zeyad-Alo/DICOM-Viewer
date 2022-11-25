@@ -43,6 +43,10 @@ def browse_window(self):
         self.salt = ImpulseNoise(self.data.grayscale_img)
         Display.display_image(self, self.salt_figure, self.salt.image_array)
         plt.axis('off')
+        self.salt_controls_widget.hide()
+        self.noise_button.show()
+        self.noise_percentage_spinBox.show()
+
 
 
         

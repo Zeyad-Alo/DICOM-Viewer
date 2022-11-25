@@ -1025,6 +1025,19 @@ border-color: transparent;</string>
                    </spacer>
                   </item>
                   <item>
+                   <widget class="QSpinBox" name="noise_percentage_spinBox">
+                    <property name="minimum">
+                     <number>10</number>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
+                    </property>
+                    <property name="singleStep">
+                     <number>10</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
                    <widget class="QPushButton" name="noise_button">
                     <property name="minimumSize">
                      <size>
