@@ -28,6 +28,10 @@ class Display:
         Display.create_equalization_canvas(self.mw)
         Display.create_unsharp_canvas(self.mw)
         Display.create_salt_canvas(self.mw)
+        Display.create_pre_mag_canvas(self.mw)
+        Display.create_pre_phase_canvas(self.mw)
+        Display.create_post_mag_canvas(self.mw)
+        Display.create_post_phase_canvas(self.mw)
 
         # Main
     def create_main_canvas(self):
@@ -111,6 +115,33 @@ class Display:
         self.salt_figure.patch.set_facecolor('black')
         self.salt_plot = Canvas(self.salt_figure)
         self.salt_box.addWidget(self.salt_plot)
+
+
+    
+    # Fourier
+    def create_pre_mag_canvas(self):
+        self.pre_mag_figure = plt.figure()
+        self.pre_mag_figure.patch.set_facecolor('black')
+        self.pre_mag_plot = Canvas(self.pre_mag_figure)
+        self.pre_mag_box.addWidget(self.pre_mag_plot)
+
+    def create_pre_phase_canvas(self):
+        self.pre_phase_figure = plt.figure()
+        self.pre_phase_figure.patch.set_facecolor('black')
+        self.pre_phase_plot = Canvas(self.pre_phase_figure)
+        self.pre_phase_box.addWidget(self.pre_phase_plot)
+
+    def create_post_mag_canvas(self):
+        self.post_mag_figure = plt.figure()
+        self.post_mag_figure.patch.set_facecolor('black')
+        self.post_mag_plot = Canvas(self.post_mag_figure)
+        self.post_mag_box.addWidget(self.post_mag_plot)
+
+    def create_post_phase_canvas(self):
+        self.post_phase_figure = plt.figure()
+        self.post_phase_figure.patch.set_facecolor('black')
+        self.post_phase_plot = Canvas(self.post_phase_figure)
+        self.post_phase_box.addWidget(self.post_phase_plot)
         
 
     # Takes in a figure, makes it active and draws

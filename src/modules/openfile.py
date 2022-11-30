@@ -5,6 +5,7 @@ from modules.size_interpolation import Interpolate
 import numpy as np
 from modules.equalization import HistogramEqualizer
 from modules.spatial_filtering import UnsharpMasking, ImpulseNoise
+from modules.fourier import ImageFFT
 import matplotlib.pylab as plt
 
 def browse_window(self):
@@ -46,6 +47,17 @@ def browse_window(self):
         self.salt_controls_widget.hide()
         self.noise_button.show()
         self.noise_percentage_spinBox.show()
+
+
+        self.fourier = ImageFFT(self.data.grayscale_img)
+        Display.display_image(self, self.pre_mag_figure, self.fourier.image_fft_mag_array)
+        plt.axis('off')
+        Display.display_image(self, self.pre_phase_figure, self.fourier.image_fft_phase_array)
+        plt.axis('off')
+        Display.display_image(self, self.post_mag_figure, np.log(self.fourier.image_fft_mag_array + 1))
+        plt.axis('off')
+        Display.display_image(self, self.post_phase_figure, np.log(self.fourier.image_fft_phase_array + 1))
+        plt.axis('off')
 
 
 

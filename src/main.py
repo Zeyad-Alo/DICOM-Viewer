@@ -3,6 +3,7 @@ from modules import interface
 from modules.displays import Display
 import sys
 import os
+import numpy as np
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -34,6 +35,7 @@ def main():
     main = MainWindow()
     main.show()
     sys.exit(app.exec_())
+
 
 
 if __name__ == '__main__':
