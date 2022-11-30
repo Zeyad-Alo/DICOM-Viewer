@@ -56,7 +56,7 @@ def browse_window(self):
         plt.axis('off')
         Display.display_image(self, self.post_mag_figure, np.log(self.fourier.image_fft_mag_array + 1))
         plt.axis('off')
-        Display.display_image(self, self.post_phase_figure, np.log(self.fourier.image_fft_phase_array + 1))
+        Display.display_image(self, self.post_phase_figure, np.log(self.fourier.image_fft_phase_array + np.pi))
         plt.axis('off')
 
 
