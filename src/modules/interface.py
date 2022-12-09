@@ -2,7 +2,9 @@ from PyQt5.QtGui import *
 from numpy import rot90
 from modules import openfile
 from modules.size_interpolation import Interpolate
+from modules.displays import Display
 from modules.rotation_shear import RotationShear
+import threading
 
 
 # UI connectors
@@ -118,6 +120,24 @@ def init_connectors(self):
     self.salt_button.clicked.connect(
         lambda: self.salt.apply_median_filter(self, self.salt_slider.value())
     )
+
+
+
+    self.ff_kernel_slider.valueChanged.connect(
+        lambda: self.ff_kernel_slider.setValue(check_slider_val(self.ff_kernel_slider.value())))
+    self.ff_kernel_slider.valueChanged.connect(
+        lambda: self.ff_lcd.display(self.ff_kernel_slider.value()))
+
+    self.ff_apply.clicked.connect(
+        lambda: threading.Thread(target=Display.display_image, args=(self, self.ff_spatial_figure, self.unsharp.apply_box_filter(self.ff_kernel_slider.value()))).start()
+    )
+    self.ff_apply.clicked.connect(
+        lambda: self.freq_filter.apply_filter(self, self.ff_kernel_slider.value())
+    )
+
+    # self.ff_apply.clicked.connect(
+    #     lambda: Display.display_image(self, self.ff_diff_figure, self.)
+    # )
 
     def check_slider_val(value):
         if value % 2 == 0:

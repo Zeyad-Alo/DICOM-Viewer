@@ -7,6 +7,7 @@ class UnsharpMasking:
 
     image_array = []
     unsharp_kernel_size = 0
+    blurred_image_array = []
 
     def __init__(self, array):
         self.image_array = array
@@ -30,21 +31,21 @@ class UnsharpMasking:
         return padded_array
 
 
-    def apply_box_filter(self):
+    def apply_box_filter(self, size):
         '''
         Creates blurred image using a box filter with size set by user
         '''
-        # Create box kernel filled withed 1s
-        box_kernel = np.ones(shape=(self.unsharp_kernel_size,self.unsharp_kernel_size))
+        # Create box kernel filled with 1s
+        box_kernel = np.ones(shape=(size,size))
 
         # Get padded image
-        padded_array = self.pad_image(self.image_array, self.unsharp_kernel_size)
+        padded_array = self.pad_image(self.image_array, size)
 
         # Initialize output array
         output_array = np.zeros(self.image_array.shape)
 
         # Offsets of start and end of original image with respect to padded image
-        offset = self.unsharp_kernel_size // 2
+        offset = size // 2
         rows_stop = offset + self.image_array.shape[0]
         col_stop = offset + self.image_array.shape[1]
 
@@ -52,8 +53,9 @@ class UnsharpMasking:
         for x in range(offset, rows_stop):
             for y in range(offset, col_stop):
                 mask = padded_array[x-offset:x+offset+1, y-offset:y+offset+1]       # This is the local sub-image that lies under the kernel
-                output_array[x-offset][y-offset] = round(self.matrix_sum(box_kernel, mask) / (self.unsharp_kernel_size ** 2))      # Calculate sum of kernel * mask and divide by kernel size
+                output_array[x-offset][y-offset] = round(self.matrix_sum(box_kernel, mask) / (size ** 2))      # Calculate sum of kernel * mask and divide by kernel size
 
+        self.blurred_image_array = output_array
         return output_array
 
 
@@ -66,7 +68,7 @@ class UnsharpMasking:
         self.unsharp_kernel_size = size
 
         # Get blurred image
-        blurred = self.apply_box_filter()
+        blurred = self.apply_box_filter(size)
 
         # Subtract blurred from original
         diff = self.image_array - blurred

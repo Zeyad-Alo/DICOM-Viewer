@@ -38,7 +38,7 @@ background-color: rgb(13, 17, 23);</string>
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>6</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -1686,6 +1686,270 @@ QGroupBox::title  {
               </layout>
              </item>
             </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_7">
+       <attribute name="title">
+        <string>Frequency Filtering</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_8">
+        <item row="1" column="0">
+         <widget class="QGroupBox" name="main_groupBox_9">
+          <property name="styleSheet">
+           <string notr="true">QGroupBox {
+background-color: rgb(13, 17, 23);
+border: 1.2px solid #ffffff;
+border-style: outset;
+border-radius: 15px;
+}
+QGroupBox::title  {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: -5px 0px 0px 0px;
+    color: rgb(255, 255, 255);
+}</string>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_14">
+           <item row="3" column="0">
+            <widget class="QGroupBox" name="controls_groupBox_10">
+             <property name="styleSheet">
+              <string notr="true">background-color: black;
+border-color: transparent;</string>
+             </property>
+             <property name="title">
+              <string>Frequency Filtered</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_16">
+              <item row="1" column="0">
+               <layout class="QVBoxLayout" name="ff_freq_box"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <layout class="QVBoxLayout" name="verticalLayout_15">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QGroupBox" name="controls_groupBox_8">
+               <property name="styleSheet">
+                <string notr="true">background-color: black;
+border-color: transparent;</string>
+               </property>
+               <property name="title">
+                <string>Image</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_11">
+                <item row="0" column="0">
+                 <layout class="QVBoxLayout" name="verticalLayout_18">
+                  <item>
+                   <layout class="QVBoxLayout" name="ff_original_box"/>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="2" column="1">
+            <layout class="QVBoxLayout" name="verticalLayout_17">
+             <item>
+              <widget class="QGroupBox" name="controls_groupBox_9">
+               <property name="styleSheet">
+                <string notr="true">background-color: black;
+border-color: transparent;</string>
+               </property>
+               <property name="title">
+                <string>Spatial Filtered</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_15">
+                <item row="1" column="0">
+                 <layout class="QVBoxLayout" name="ff_spatial_box"/>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="1">
+            <widget class="QGroupBox" name="controls_groupBox_11">
+             <property name="styleSheet">
+              <string notr="true">background-color: black;
+border-color: transparent;</string>
+             </property>
+             <property name="title">
+              <string>Filter Difference</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_17">
+              <item row="1" column="0">
+               <layout class="QVBoxLayout" name="ff_diff_box"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QWidget" name="" native="true">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QWidget {
+background-color: rgb(0, 0, 0);
+border: 0;
+border-radius: 15px;
+}</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_17">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_30">
+             <item>
+              <widget class="QLabel" name="label_13">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Kernel Size:   </string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="ff_kernel_slider">
+               <property name="minimumSize">
+                <size>
+                 <width>200</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QSlider{
+    background-color: transparent;
+}
+
+QSlider::handle {
+    background-color: qradialgradient(
+        cx: 0.7, cy: 1.4, fx: 0.7, fy: 1.4,
+        radius: 1, stop: 0 #fff, stop: 1 #424242
+        );
+	border-radius: 2px;
+    height: 40px;
+    width: 40px;
+    margin: -15px 0px;
+    }
+
+QSlider::handle::hover{
+	border: inset;
+	 background-color: qradialgradient(
+        cx: 0.7, cy: 1.4, fx: 0.7, fy: 1.4,
+        radius: 1, stop: 0 #bbb, stop: 1 #000
+        );}</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>101</number>
+               </property>
+               <property name="singleStep">
+                <number>2</number>
+               </property>
+               <property name="pageStep">
+                <number>2</number>
+               </property>
+               <property name="sliderPosition">
+                <number>1</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+               <property name="tickInterval">
+                <number>5</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ff_lcd">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="intValue" stdset="0">
+                <number>1</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QPushButton" name="ff_apply">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+    border-radius: 5px;
+    border-style: outset;
+    background: rgb(12, 17, 24);
+	padding: 3;
+    }
+
+QPushButton:hover {
+    background: rgb(63, 95, 127)
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background:rgb(20, 20, 20)
+    }</string>
+             </property>
+             <property name="text">
+              <string>Apply</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_9">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>

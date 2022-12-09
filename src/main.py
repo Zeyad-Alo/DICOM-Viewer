@@ -22,6 +22,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # set the title and icon
         # self.setWindowIcon(QtGui.QIcon('resources/icon.png'))
         self.setWindowTitle("Image Mixer")
+        Display.mw = self
 
         # initialize UI
         self.disp = Display(self)

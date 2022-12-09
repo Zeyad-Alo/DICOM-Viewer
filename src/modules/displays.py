@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QLabel, QScrollArea
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as Canvas
 import matplotlib.pylab as plt
 import numpy as np
+from matplotlib.patches  import Rectangle
 
 
 plt.rcParams['axes.facecolor'] = 'black'
@@ -32,6 +33,10 @@ class Display:
         Display.create_pre_phase_canvas(self.mw)
         Display.create_post_mag_canvas(self.mw)
         Display.create_post_phase_canvas(self.mw)
+        Display.create_ff_original_canvas(self.mw)
+        Display.create_ff_spatial_canvas(self.mw)
+        Display.create_ff_freq_canvas(self.mw)
+        Display.create_ff_diff_canvas(self.mw)
 
         # Main
     def create_main_canvas(self):
@@ -131,26 +136,87 @@ class Display:
         self.pre_phase_plot = Canvas(self.pre_phase_figure)
         self.pre_phase_box.addWidget(self.pre_phase_plot)
 
+    x0 = None
+    y0 = None
+    x1 = None
+    y1 = None
+    # rect = Rectangle((0,0), 1, 1)
+    # rects = []
+
+    def on_press(event):
+        Display.x0 = event.xdata
+        Display.y0 = event.ydata
+        print('you pressed', event.button, event.xdata, event.ydata)
+
+    def on_release(event):
+        x1 = event.xdata
+        y1 = event.ydata
+        rect = Rectangle((Display.x0, Display.y0), x1-Display.x0, y1-Display.y0)
+        Display.mw.post_mag_figure.gca().add_patch(rect)
+        Display.mw.post_mag_plot.draw()
+        print('you released', event.button, event.xdata, event.ydata)
+
     def create_post_mag_canvas(self):
         self.post_mag_figure = plt.figure()
         self.post_mag_figure.patch.set_facecolor('black')
         self.post_mag_plot = Canvas(self.post_mag_figure)
+        self.post_mag_plot.mpl_connect('button_press_event', Display.on_press)
+        self.post_mag_plot.mpl_connect('button_release_event', Display.on_release)
         self.post_mag_box.addWidget(self.post_mag_plot)
+
+
 
     def create_post_phase_canvas(self):
         self.post_phase_figure = plt.figure()
         self.post_phase_figure.patch.set_facecolor('black')
         self.post_phase_plot = Canvas(self.post_phase_figure)
         self.post_phase_box.addWidget(self.post_phase_plot)
+
+
+
+    def create_ff_original_canvas(self):
+        self.ff_original_figure = plt.figure()
+        self.ff_original_figure.patch.set_facecolor('black')
+        self.ff_original_plot = Canvas(self.ff_original_figure)
+        self.ff_original_box.addWidget(self.ff_original_plot)
+
+    def create_ff_spatial_canvas(self):
+        self.ff_spatial_figure = plt.figure()
+        self.ff_spatial_figure.patch.set_facecolor('black')
+        self.ff_spatial_plot = Canvas(self.ff_spatial_figure)
+        self.ff_spatial_box.addWidget(self.ff_spatial_plot)
+
+    def create_ff_freq_canvas(self):
+        self.ff_freq_figure = plt.figure()
+        self.ff_freq_figure.patch.set_facecolor('black')
+        self.ff_freq_plot = Canvas(self.ff_freq_figure)
+        self.ff_freq_box.addWidget(self.ff_freq_plot)
+
+    def create_ff_diff_canvas(self):
+        self.ff_diff_figure = plt.figure()
+        self.ff_diff_figure.patch.set_facecolor('black')
+        self.ff_diff_plot = Canvas(self.ff_diff_figure)
+        self.ff_diff_box.addWidget(self.ff_diff_plot)
         
 
     # Takes in a figure, makes it active and draws
     def display_image(self, figure, data):
         Display.clear_image(figure)
         plt.figure(figure.number)
+        plt.axis('off')
 
         if figure == self.nn_figure or figure == self.bilinear_figure: plt.figimage(data, interpolation='None', cmap='gray')
         else: plt.imshow(data, interpolation='None', cmap='gray', vmin=0) # Autofits image in main plot
+
+        # if figure == self.post_mag_figure:
+            # Display.rect.set_figure(figure.axes)
+            # print(Display.rect.axes)
+            # Display.rect.remove()
+            # print(figure.axes)
+            # figure.subplots().add_patch(Display.rect)
+            # for rect in Display.rects:
+            #     self.post_mag_figure.subplots().add_patch(rect)
+            # print(Display.rect.axes)
 
         plt.draw()
 

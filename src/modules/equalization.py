@@ -15,7 +15,6 @@ class HistogramEqualizer:
         self.image_array = np.array(arr)
         self.depth = depth
         self.histogram_array = self.calculate_histo_array(self.image_array)
-        print(np.amax(self.histogram_array))
 
     
     

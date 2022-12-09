@@ -6,6 +6,7 @@ import numpy as np
 from modules.equalization import HistogramEqualizer
 from modules.spatial_filtering import UnsharpMasking, ImpulseNoise
 from modules.fourier import ImageFFT
+from modules.frequency_filtering import FrequencyFilter
 import matplotlib.pylab as plt
 
 def browse_window(self):
@@ -25,8 +26,6 @@ def browse_window(self):
         Interpolate.image_array = np.array(self.data.grayscale_img)
         Interpolate.interpolate(self, (self.size_slider.value()/10))
 
-        # if np.amax(self.data.grayscale_img) <= 256:
-        print(self.data.grayscale_depth)
         self.histo = HistogramEqualizer(self.data.grayscale_img, self.data.grayscale_depth)
         Display.display_image(self, self.original_eq_figure, self.histo.image_array)
         plt.axis('off')
@@ -56,8 +55,14 @@ def browse_window(self):
         plt.axis('off')
         Display.display_image(self, self.post_mag_figure, np.log(self.fourier.image_fft_mag_array + 1))
         plt.axis('off')
-        Display.display_image(self, self.post_phase_figure, np.log(self.fourier.image_fft_phase_array + np.pi))
+        Display.display_image(self, self.post_phase_figure, np.log(self.fourier.image_fft_phase_array + np.pi * 2))
         plt.axis('off')
+
+        Display.clear_image(self.ff_freq_figure)
+        Display.clear_image(self.ff_spatial_figure)
+        Display.clear_image(self.ff_diff_figure)
+        self.freq_filter = FrequencyFilter(self.fourier)
+        Display.display_image(self, self.ff_original_figure, self.fourier.image_array)
 
 
 
