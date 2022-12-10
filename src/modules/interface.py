@@ -135,6 +135,11 @@ def init_connectors(self):
         lambda: self.freq_filter.apply_filter(self, self.ff_kernel_slider.value())
     )
 
+
+    self.noise_removal_apply.clicked.connect(
+        lambda: self.freq_mask.apply_mask(self)
+    )
+
     # self.ff_apply.clicked.connect(
     #     lambda: Display.display_image(self, self.ff_diff_figure, self.)
     # )

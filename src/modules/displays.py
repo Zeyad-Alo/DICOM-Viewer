@@ -6,6 +6,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as Canvas
 import matplotlib.pylab as plt
 import numpy as np
 from matplotlib.patches  import Rectangle
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 
 plt.rcParams['axes.facecolor'] = 'black'
@@ -37,6 +38,10 @@ class Display:
         Display.create_ff_spatial_canvas(self.mw)
         Display.create_ff_freq_canvas(self.mw)
         Display.create_ff_diff_canvas(self.mw)
+        Display.create_noise_removal_og_canvas(self.mw)
+        Display.create_noise_removal_og_mag_canvas(self.mw)
+        Display.create_noise_removal_after_canvas(self.mw)
+        Display.create_noise_removal_after_mag_canvas(self.mw)
 
         # Main
     def create_main_canvas(self):
@@ -140,28 +145,38 @@ class Display:
     y0 = None
     x1 = None
     y1 = None
-    # rect = Rectangle((0,0), 1, 1)
+    rect = None
+    is_pressed = False
     # rects = []
 
     def on_press(event):
-        Display.x0 = event.xdata
-        Display.y0 = event.ydata
-        print('you pressed', event.button, event.xdata, event.ydata)
+        if not Display.mw.toolbar._actions['zoom'].isChecked():
+            Display.is_pressed = True
+            Display.x0 = event.xdata
+            Display.y0 = event.ydata
+            Display.rect = Rectangle((Display.x0, Display.y0), 0, 0)
+            Display.rect.set_color('r')
+            Display.rect.set_alpha(0.3)
+            Display.mw.noise_removal_og_mag_figure.gca().add_patch(Display.rect)
+            print('you pressed', event.button, event.xdata, event.ydata)
+
+    def on_motion(event):
+        if Display.is_pressed == True:
+            Display.x1 = event.xdata
+            Display.y1 = event.ydata
+            Display.rect.set_width(event.xdata - Display.x0)
+            Display.rect.set_height(event.ydata - Display.y0)
+            Display.mw.noise_removal_og_mag_plot.draw()
 
     def on_release(event):
-        x1 = event.xdata
-        y1 = event.ydata
-        rect = Rectangle((Display.x0, Display.y0), x1-Display.x0, y1-Display.y0)
-        Display.mw.post_mag_figure.gca().add_patch(rect)
-        Display.mw.post_mag_plot.draw()
+        Display.is_pressed = False
+        Display.mw.freq_mask.edit_mask(round(Display.x0), round(Display.y0), round(Display.x1), round(Display.y1))
         print('you released', event.button, event.xdata, event.ydata)
 
     def create_post_mag_canvas(self):
         self.post_mag_figure = plt.figure()
         self.post_mag_figure.patch.set_facecolor('black')
         self.post_mag_plot = Canvas(self.post_mag_figure)
-        self.post_mag_plot.mpl_connect('button_press_event', Display.on_press)
-        self.post_mag_plot.mpl_connect('button_release_event', Display.on_release)
         self.post_mag_box.addWidget(self.post_mag_plot)
 
 
@@ -197,7 +212,40 @@ class Display:
         self.ff_diff_figure.patch.set_facecolor('black')
         self.ff_diff_plot = Canvas(self.ff_diff_figure)
         self.ff_diff_box.addWidget(self.ff_diff_plot)
-        
+
+
+
+    def create_noise_removal_og_canvas(self):
+        self.noise_removal_og_figure = plt.figure()
+        self.noise_removal_og_figure.patch.set_facecolor('black')
+        self.noise_removal_og_plot = Canvas(self.noise_removal_og_figure)
+        self.noise_removal_og_box.addWidget(self.noise_removal_og_plot)
+
+    def create_noise_removal_og_mag_canvas(self):
+        self.noise_removal_og_mag_figure = plt.figure()
+        self.noise_removal_og_mag_figure.patch.set_facecolor('black')
+        self.noise_removal_og_mag_plot = Canvas(self.noise_removal_og_mag_figure)
+        self.noise_removal_og_mag_plot.mpl_connect('button_press_event', Display.on_press)
+        self.noise_removal_og_mag_plot.mpl_connect('button_release_event', Display.on_release)
+        self.noise_removal_og_mag_plot.mpl_connect('motion_notify_event', Display.on_motion)
+
+        self.toolbar = NavigationToolbar(self.noise_removal_og_mag_plot, self)
+        self.toolbar.setMaximumWidth(300)
+        self.horizontalLayout_27.addWidget(self.toolbar)
+        self.horizontalLayout_27.addWidget(self.noise_removal_apply)
+        self.noise_removal_og_mag_box.addWidget(self.noise_removal_og_mag_plot)
+
+    def create_noise_removal_after_canvas(self):
+        self.noise_removal_after_figure = plt.figure()
+        self.noise_removal_after_figure.patch.set_facecolor('black')
+        self.noise_removal_after_plot = Canvas(self.noise_removal_after_figure)
+        self.noise_removal_after_box.addWidget(self.noise_removal_after_plot)
+
+    def create_noise_removal_after_mag_canvas(self):
+        self.noise_removal_after_mag_figure = plt.figure()
+        self.noise_removal_after_mag_figure.patch.set_facecolor('black')
+        self.noise_removal_after_mag_plot = Canvas(self.noise_removal_after_mag_figure)
+        self.noise_removal_after_mag_box.addWidget(self.noise_removal_after_mag_plot)
 
     # Takes in a figure, makes it active and draws
     def display_image(self, figure, data):
@@ -207,16 +255,6 @@ class Display:
 
         if figure == self.nn_figure or figure == self.bilinear_figure: plt.figimage(data, interpolation='None', cmap='gray')
         else: plt.imshow(data, interpolation='None', cmap='gray', vmin=0) # Autofits image in main plot
-
-        # if figure == self.post_mag_figure:
-            # Display.rect.set_figure(figure.axes)
-            # print(Display.rect.axes)
-            # Display.rect.remove()
-            # print(figure.axes)
-            # figure.subplots().add_patch(Display.rect)
-            # for rect in Display.rects:
-            #     self.post_mag_figure.subplots().add_patch(rect)
-            # print(Display.rect.axes)
 
         plt.draw()
 
