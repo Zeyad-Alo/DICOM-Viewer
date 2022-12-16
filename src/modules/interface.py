@@ -4,6 +4,7 @@ from modules import openfile
 from modules.size_interpolation import Interpolate
 from modules.displays import Display
 from modules.rotation_shear import RotationShear
+from modules.noise_models import NoiseModels
 import threading
 
 
@@ -140,9 +141,45 @@ def init_connectors(self):
         lambda: self.freq_mask.apply_mask(self)
     )
 
-    # self.ff_apply.clicked.connect(
-    #     lambda: Display.display_image(self, self.ff_diff_figure, self.)
+
+
+
+    self.noise_options.hide()
+    self.uniform_options.hide()
+    self.generate_phantom_button.clicked.connect(
+        lambda: self.noise_model.create_phantom(self)
+    )
+    self.noise_combobox.currentIndexChanged.connect(
+        lambda: noise_model_selection(self, self.noise_combobox.currentText())
+    )
+    # self.a_spinBox.valueChanged.connect(
+    #     lambda: validate_a_b_values(self, self.a_spinBox.value(), self.b_spinBox.value())
     # )
+    # self.b_spinBox.valueChanged.connect(
+    #     lambda: validate_a_b_values(self, self.a_spinBox.value(), self.b_spinBox.value())
+    # )
+    self.phantom_noise_apply_button.clicked.connect(
+        lambda: apply_noise_model(self, self.noise_combobox.currentText())
+    )
+
+
+    def noise_model_selection(self, type):
+        if type == 'Gaussian':
+            self.gaussian_options.show()
+            self.uniform_options.hide()
+        elif type == 'Uniform':
+            self.gaussian_options.hide()
+            self.uniform_options.show()
+
+    def apply_noise_model(self, type):
+        if type == 'Gaussian':
+            self.noise_model.add_noise(self, self.mean_spinBox.value(), self.sigma_spinBox.value(), type)
+        elif type == 'Uniform':
+            self.noise_model.add_noise(self, self.a_spinBox.value(), self.b_spinBox.value(), type)
+
+    def validate_a_b_values(self, a, b):
+        if a >= b:
+            self.b_spinBox.setValue(a+1)
 
     def check_slider_val(value):
         if value % 2 == 0:

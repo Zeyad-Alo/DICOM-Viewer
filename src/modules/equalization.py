@@ -21,17 +21,22 @@ class HistogramEqualizer:
     def calculate_histo_array(self, image):
         
         # Flatten image array
-        flat = image.flatten()
+        flat = image.flatten().astype(np.uint)
+
+        if np.amax(flat) + 1 < 256:
+            depth = 256
+        else:
+            depth = np.amax(flat) + 1
 
         # Create array to store pixel value frequency
-        histo_arr = np.zeros(self.depth, dtype=np.uint)
+        histo_arr = np.zeros(depth, dtype=np.uint)
 
         # Loop over flat image and count
         for i in flat:
             histo_arr[i] = histo_arr[i] + 1
 
         # Divide by total number of pixels to get probabilities (noramlize)
-        return histo_arr / self.image_array.size
+        return histo_arr / image.size
 
     
     

@@ -6,7 +6,8 @@ import numpy as np
 from modules.equalization import HistogramEqualizer
 from modules.spatial_filtering import UnsharpMasking, ImpulseNoise
 from modules.fourier import ImageFFT
-from modules.frequency_filtering import FrequencyFilter
+from modules.frequency_filtering import FrequencyFilter, FrequencyMask
+from modules.noise_models import NoiseModels
 import matplotlib.pylab as plt
 
 def browse_window(self):
@@ -64,6 +65,12 @@ def browse_window(self):
         self.freq_filter = FrequencyFilter(self.fourier)
         Display.display_image(self, self.ff_original_figure, self.fourier.image_array)
 
+
+        Display.display_image(self, self.noise_removal_og_figure, self.fourier.image_array)
+        Display.display_image(self, self.noise_removal_og_mag_figure, np.log(self.fourier.image_fft_mag_array + 1))
+        self.freq_mask = FrequencyMask(self.fourier.image_fft_array)
+        Display.clear_image(self.noise_removal_after_figure)
+        Display.clear_image(self.noise_removal_after_mag_figure)
 
 
 

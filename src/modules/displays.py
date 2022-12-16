@@ -42,6 +42,9 @@ class Display:
         Display.create_noise_removal_og_mag_canvas(self.mw)
         Display.create_noise_removal_after_canvas(self.mw)
         Display.create_noise_removal_after_mag_canvas(self.mw)
+        Display.create_phantom_canvas(self.mw)
+        Display.create_phantom_noise_canvas(self.mw)
+        Display.create_phantom_histo_canvas(self.mw)
 
         # Main
     def create_main_canvas(self):
@@ -147,7 +150,6 @@ class Display:
     y1 = None
     rect = None
     is_pressed = False
-    # rects = []
 
     def on_press(event):
         if not Display.mw.toolbar._actions['zoom'].isChecked():
@@ -247,6 +249,34 @@ class Display:
         self.noise_removal_after_mag_plot = Canvas(self.noise_removal_after_mag_figure)
         self.noise_removal_after_mag_box.addWidget(self.noise_removal_after_mag_plot)
 
+
+
+
+    def create_phantom_canvas(self):
+        self.phantom_figure = plt.figure()
+        self.phantom_figure.patch.set_facecolor('black')
+        self.phantom_plot = Canvas(self.phantom_figure)
+        self.phantom_box.addWidget(self.phantom_plot)
+
+    def create_phantom_noise_canvas(self):
+        self.phantom_noise_figure = plt.figure()
+        self.phantom_noise_figure.patch.set_facecolor('black')
+        self.phantom_noise_plot = Canvas(self.phantom_noise_figure)
+        plt.axis('off')
+        self.phantom_noise_plot.mpl_connect('button_press_event', self.noise_model.on_press)
+        self.phantom_noise_plot.mpl_connect('button_release_event', self.noise_model.on_release)
+        self.phantom_noise_plot.mpl_connect('motion_notify_event', self.noise_model.on_motion)
+        self.phantom_noise_box.addWidget(self.phantom_noise_plot)
+
+    def create_phantom_histo_canvas(self):
+        self.phantom_histo_figure = plt.figure()
+        self.phantom_histo_figure.patch.set_facecolor('black')
+        self.phantom_histo_plot = Canvas(self.phantom_histo_figure)
+        self.phantom_histo_box.addWidget(self.phantom_histo_plot)
+
+
+
+
     # Takes in a figure, makes it active and draws
     def display_image(self, figure, data):
         Display.clear_image(figure)
@@ -254,7 +284,7 @@ class Display:
         plt.axis('off')
 
         if figure == self.nn_figure or figure == self.bilinear_figure: plt.figimage(data, interpolation='None', cmap='gray')
-        else: plt.imshow(data, interpolation='None', cmap='gray', vmin=0) # Autofits image in main plot
+        else: plt.imshow(data, interpolation='None', cmap='gray') # Autofits image in main plot
 
         plt.draw()
 
@@ -264,6 +294,7 @@ class Display:
         plt.draw()
 
     def display_histo(figure, data, depth = 256):
+        if depth < 256: depth = 256
         Display.clear_image(figure)
         plt.figure(figure.number)
         plt.bar(np.arange(depth), height=data)

@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, uic
 from modules import interface
 from modules.displays import Display
+from modules.noise_models import NoiseModels
 import sys
 import os
 import numpy as np
@@ -22,6 +23,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # set the title and icon
         # self.setWindowIcon(QtGui.QIcon('resources/icon.png'))
         self.setWindowTitle("Image Mixer")
+        self.noise_model = NoiseModels()
         Display.mw = self
 
         # initialize UI
