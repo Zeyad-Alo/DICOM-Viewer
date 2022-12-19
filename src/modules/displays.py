@@ -45,6 +45,9 @@ class Display:
         Display.create_phantom_canvas(self.mw)
         Display.create_phantom_noise_canvas(self.mw)
         Display.create_phantom_histo_canvas(self.mw)
+        Display.create_shepp_logan_canvas(self.mw)
+        Display.create_sinogram_canvas(self.mw)
+        Display.create_lamino_canvas(self.mw)
 
         # Main
     def create_main_canvas(self):
@@ -274,6 +277,24 @@ class Display:
         self.phantom_histo_plot = Canvas(self.phantom_histo_figure)
         self.phantom_histo_box.addWidget(self.phantom_histo_plot)
 
+    def create_shepp_logan_canvas(self):
+        self.shepp_logan_figure = plt.figure()
+        self.shepp_logan_figure.patch.set_facecolor('black')
+        self.shepp_logan_plot = Canvas(self.shepp_logan_figure)
+        self.shepp_logan_box.addWidget(self.shepp_logan_plot)
+
+    def create_sinogram_canvas(self):
+        self.sinogram_figure = plt.figure()
+        self.sinogram_figure.patch.set_facecolor('black')
+        self.sinogram_plot = Canvas(self.sinogram_figure)
+        self.sinogram_box.addWidget(self.sinogram_plot)
+
+    def create_lamino_canvas(self):
+        self.lamino_figure = plt.figure()
+        self.lamino_figure.patch.set_facecolor('black')
+        self.lamino_plot = Canvas(self.lamino_figure)
+        self.lamino_box.addWidget(self.lamino_plot)
+
 
 
 
@@ -283,7 +304,10 @@ class Display:
         plt.figure(figure.number)
         plt.axis('off')
 
-        if figure == self.nn_figure or figure == self.bilinear_figure: plt.figimage(data, interpolation='None', cmap='gray')
+        if figure == self.nn_figure or figure == self.bilinear_figure:
+            plt.figimage(data, interpolation='None', cmap='gray')
+        elif figure == self.sinogram_figure:
+            plt.imshow(data, interpolation='None', cmap='gray', aspect='auto')
         else: plt.imshow(data, interpolation='None', cmap='gray') # Autofits image in main plot
 
         plt.draw()

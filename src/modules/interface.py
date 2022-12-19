@@ -163,6 +163,23 @@ def init_connectors(self):
     )
 
 
+
+    self.bp_lineEdit.hide()
+    self.manual.hide() # Comment to add manual input
+    self.start_spinBox.valueChanged.connect(
+        lambda: self.end_spinBox.setMinimum(self.start_spinBox.value() + 1)
+    )
+    self.end_spinBox.valueChanged.connect(
+        lambda: self.start_spinBox.setMaximum(self.end_spinBox.value() - 1)
+    )
+    self.manual.toggled.connect(
+        lambda: manual_input_handler()
+    )
+    self.bp_apply.clicked.connect(
+        lambda: calculate_lamino_handler()
+    )
+
+
     def noise_model_selection(self, type):
         if type == 'Gaussian':
             self.gaussian_options.show()
@@ -185,3 +202,18 @@ def init_connectors(self):
         if value % 2 == 0:
             return value - 1
         return value
+
+
+    def manual_input_handler():
+
+        if self.manual.isChecked():
+            self.bp_lineEdit.show()
+        else: 
+            self.bp_lineEdit.hide()
+
+    def calculate_lamino_handler():
+        
+        if self.manual.isChecked():
+            self.back_projection.create_lamino_manual_entry(self.bp_lineEdit.text(), self.bp_filter_combobox.currentText())
+        else: 
+            self.back_projection.create_laminogram(self.start_spinBox.value(), self.end_spinBox.value(), self.step_spinBox.value(), self.bp_filter_combobox.currentText())

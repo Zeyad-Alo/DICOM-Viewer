@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, uic
 from modules import interface
 from modules.displays import Display
 from modules.noise_models import NoiseModels
+from modules.back_projection import BackProjection
 import sys
 import os
 import numpy as np
@@ -29,6 +30,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # initialize UI
         self.disp = Display(self)
         interface.init_connectors(self)
+        self.back_projection = BackProjection()
 
 
 
