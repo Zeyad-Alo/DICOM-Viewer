@@ -87,7 +87,7 @@ class Interpolate:
     #     else: return
 
 
-    def interpolate_bilinear(self, x, y, w, h, array):
+    def interpolate_bilinear(x, y, w, h, array):
 
             # Nearest neighbours coordinates in input space
             x_prev = int(np.floor(x))
