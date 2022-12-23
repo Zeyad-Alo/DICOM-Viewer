@@ -21,8 +21,11 @@ class BackProjection:
         # Angles from 0 --> 179
         theta = np.arange(0, 180, 1)
 
+        # Create sinogram
+        sinogram = transform.radon(self.image_array, theta)
+
         # Create sinogram manually
-        sinogram = BackProjection.manual_radon_transform(self.image_array, theta)
+        # sinogram = BackProjection.manual_radon_transform(self.image_array, theta)
         
         # Display sinogram
         Display.display_image(Display.mw, Display.mw.sinogram_figure, sinogram)
@@ -55,23 +58,5 @@ class BackProjection:
         radon = transform.radon(self.image_array, theta)
         # Inverse radon transform to get laminogram, while applying given filter
         laminogram = transform.iradon(radon, theta, filter_name=filter)
-        # Display laminogram
-        Display.display_image(Display.mw, Display.mw.lamino_figure, laminogram)
-
-
-
-    def create_lamino_manual_entry(self, arr, filter):
-        
-        if filter == 'None': filter = None
-        elif filter == 'Ram-Lak': filter = 'ramp'
-        elif filter == 'Hamming': filter = 'hamming'
-
-        # Array of int from input
-        arr = list(map(int, arr.split()))
-        
-        # Radon transform
-        radon = transform.radon(self.image_array, arr)
-        # Inverse radon transform to get laminogram, while applying given filter
-        laminogram = transform.iradon(radon, arr, filter_name=filter)
         # Display laminogram
         Display.display_image(Display.mw, Display.mw.lamino_figure, laminogram)
