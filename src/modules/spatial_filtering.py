@@ -12,12 +12,13 @@ class UnsharpMasking:
     def __init__(self, array):
         self.image_array = array
 
-    def pad_image(self, arr, kernel):
+    def pad_image(arr, kernel):
         '''
         Adds zero padding to image to accomodate for kernel size
         '''
         # Offset of image placement inside padded array
-        offset = kernel // 2
+        offset_x = kernel[0] // 2
+        offset_y = kernel[1] // 2
 
         # Padded array's dimensions
         new_arr_width = arr.shape[1] + kernel - 1
@@ -27,7 +28,7 @@ class UnsharpMasking:
         padded_array = np.zeros(shape=(new_arr_height, new_arr_width), dtype=np.uint)
 
         # Insert image into padded array
-        padded_array[offset:offset+arr.shape[0], offset:offset+arr.shape[1]] = arr
+        padded_array[offset_x:offset_x+arr.shape[0], offset_y:offset_y+arr.shape[1]] = arr
         return padded_array
 
 
@@ -39,7 +40,7 @@ class UnsharpMasking:
         box_kernel = np.ones(shape=(size,size))
 
         # Get padded image
-        padded_array = self.pad_image(self.image_array, size)
+        padded_array = self.pad_image(self.image_array, (size,size))
 
         # Initialize output array
         output_array = np.zeros(self.image_array.shape)
@@ -153,7 +154,7 @@ class ImpulseNoise:
         out_array = np.zeros(shape=self.salty_image_array.shape, dtype=np.uint)
 
         # Get padded image
-        padded_array = UnsharpMasking.pad_image(self, self.salty_image_array, size)
+        padded_array = UnsharpMasking.pad_image(self, self.salty_image_array, (size, size))
 
         # Offsets of start and end of original image with respect to padded image
         offset = size // 2

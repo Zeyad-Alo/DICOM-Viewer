@@ -48,6 +48,8 @@ class Display:
         Display.create_shepp_logan_canvas(self.mw)
         Display.create_sinogram_canvas(self.mw)
         Display.create_lamino_canvas(self.mw)
+        Display.create_morph_og_canvas(self.mw)
+        Display.create_morph_post_canvas(self.mw)
 
         # Main
     def create_main_canvas(self):
@@ -294,6 +296,20 @@ class Display:
         self.lamino_figure.patch.set_facecolor('black')
         self.lamino_plot = Canvas(self.lamino_figure)
         self.lamino_box.addWidget(self.lamino_plot)
+
+
+
+    def create_morph_og_canvas(self):
+        self.morph_og_figure = plt.figure()
+        self.morph_og_figure.patch.set_facecolor('black')
+        self.morph_og_plot = Canvas(self.morph_og_figure)
+        self.morph_og_box.addWidget(self.morph_og_plot)
+
+    def create_morph_post_canvas(self):
+        self.morph_post_figure = plt.figure()
+        self.morph_post_figure.patch.set_facecolor('black')
+        self.morph_post_plot = Canvas(self.morph_post_figure)
+        self.morph_post_box.addWidget(self.morph_post_plot)
 
 
 
