@@ -43,7 +43,7 @@ class Interpolate:
                         x_in = (x_out * in_w)
                         y_in = (y_out * in_h)
 
-                        new_arr[i][j] = Interpolate.interpolate_bilinear(self, x_in, y_in, in_w, in_h, Interpolate.image_array)
+                        new_arr[i][j] = Interpolate.interpolate_bilinear(x_in, y_in, in_w, in_h, Interpolate.image_array)
 
             # Resize plots to make it scrollable and display
             if type == 'nn':

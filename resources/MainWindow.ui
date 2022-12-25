@@ -3108,8 +3108,8 @@ border-color: transparent;</string>
              <property name="title">
               <string/>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_42">
-              <item>
+             <layout class="QGridLayout" name="gridLayout_24">
+              <item row="0" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_44">
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_40">
@@ -3195,6 +3195,15 @@ QComboBox QAbstractItemView
                    <layout class="QHBoxLayout" name="horizontalLayout_43">
                     <item>
                      <widget class="QSpinBox" name="morph_spinBox_x">
+                      <property name="frame">
+                       <bool>true</bool>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                      </property>
+                      <property name="keyboardTracking">
+                       <bool>false</bool>
+                      </property>
                       <property name="minimum">
                        <number>1</number>
                       </property>
@@ -3221,6 +3230,15 @@ QComboBox QAbstractItemView
                     </item>
                     <item>
                      <widget class="QSpinBox" name="morph_spinBox_y">
+                      <property name="frame">
+                       <bool>true</bool>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                      </property>
+                      <property name="keyboardTracking">
+                       <bool>false</bool>
+                      </property>
                       <property name="minimum">
                        <number>1</number>
                       </property>
@@ -3238,8 +3256,15 @@ QComboBox QAbstractItemView
                 </item>
                </layout>
               </item>
-              <item>
+              <item row="1" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_46">
+                <item>
+                 <widget class="QRadioButton" name="accumulate">
+                  <property name="text">
+                   <string>Accumulative</string>
+                  </property>
+                 </widget>
+                </item>
                 <item>
                  <spacer name="horizontalSpacer_16">
                   <property name="orientation">
@@ -3252,6 +3277,36 @@ QComboBox QAbstractItemView
                    </size>
                   </property>
                  </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="morph_apply_2">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+    border-radius: 5px;
+    border-style: outset;
+    background: rgb(12, 17, 24);
+	padding: 3;
+    }
+
+QPushButton:hover {
+    background: rgb(63, 95, 127)
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background:rgb(20, 20, 20)
+    }</string>
+                  </property>
+                  <property name="text">
+                   <string>Remove Noise</string>
+                  </property>
+                 </widget>
                 </item>
                 <item>
                  <widget class="QPushButton" name="morph_apply">

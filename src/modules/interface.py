@@ -177,6 +177,25 @@ def init_connectors(self):
     )
 
 
+    self.morph_apply_2.hide()
+    self.morph_spinBox_x.valueChanged.connect(
+        lambda: self.morph_spinBox_x.setValue(check_slider_val(self.morph_spinBox_x.value()))
+    )
+    self.morph_spinBox_y.valueChanged.connect(
+        lambda: self.morph_spinBox_y.setValue(check_slider_val(self.morph_spinBox_y.value()))
+    )
+    self.accumulate.toggled.connect(
+        lambda: self.morph.set_accumulative(self.accumulate.isChecked())
+    )
+    self.morph_apply.clicked.connect(
+        lambda: Display.display_image(self, self.morph_post_figure, self.morph.apply_morph_operation(self.morph_spinBox_x.value(), self.morph_spinBox_y.value(), self.morph_combobox.currentText()))
+    )
+    self.morph_apply_2.clicked.connect(
+        lambda: Display.display_image(self, self.morph_post_figure, self.morph.remove_fingerprint_noise())
+    )
+
+
+
     def noise_model_selection(self, type):
         if type == 'Gaussian':
             self.gaussian_options.show()

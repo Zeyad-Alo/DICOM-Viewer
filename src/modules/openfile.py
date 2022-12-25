@@ -73,6 +73,11 @@ def browse_window(self):
         Display.clear_image(self.noise_removal_after_mag_figure)
 
 
+        from modules.morphological_processing import MorphologicalProcessing
+        self.morph = MorphologicalProcessing(self.data.binary_img)
+        Display.display_image(self, self.morph_og_figure, self.morph.image)
+
+
 
         
         try:

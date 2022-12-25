@@ -77,6 +77,7 @@ class ImageData:
 
         self.plot_data = image
         self.grayscale_img = np.array(image.convert('L'))
+        self.binary_img = np.array(image.convert('1'))
 
         self.format = image.format
         self.width = image.width

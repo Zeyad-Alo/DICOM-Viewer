@@ -324,7 +324,14 @@ class Display:
             plt.figimage(data, interpolation='None', cmap='gray')
         elif figure == self.sinogram_figure:
             plt.imshow(data, interpolation='None', cmap='gray', aspect='auto')
-        else: plt.imshow(data, interpolation='None', cmap='gray') # Autofits image in main plot
+        else:
+            result = None
+            while result is None:
+                try:
+                    plt.imshow(data, interpolation='None', cmap='gray')
+                    result = 1
+                except:
+                    pass
 
         plt.draw()
 
