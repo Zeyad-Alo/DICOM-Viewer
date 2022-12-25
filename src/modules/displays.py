@@ -48,6 +48,8 @@ class Display:
         Display.create_shepp_logan_canvas(self.mw)
         Display.create_sinogram_canvas(self.mw)
         Display.create_lamino_canvas(self.mw)
+        Display.create_morph_og_canvas(self.mw)
+        Display.create_morph_post_canvas(self.mw)
 
         # Main
     def create_main_canvas(self):
@@ -297,6 +299,20 @@ class Display:
 
 
 
+    def create_morph_og_canvas(self):
+        self.morph_og_figure = plt.figure()
+        self.morph_og_figure.patch.set_facecolor('black')
+        self.morph_og_plot = Canvas(self.morph_og_figure)
+        self.morph_og_box.addWidget(self.morph_og_plot)
+
+    def create_morph_post_canvas(self):
+        self.morph_post_figure = plt.figure()
+        self.morph_post_figure.patch.set_facecolor('black')
+        self.morph_post_plot = Canvas(self.morph_post_figure)
+        self.morph_post_box.addWidget(self.morph_post_plot)
+
+
+
 
     # Takes in a figure, makes it active and draws
     def display_image(self, figure, data):
@@ -308,7 +324,14 @@ class Display:
             plt.figimage(data, interpolation='None', cmap='gray')
         elif figure == self.sinogram_figure:
             plt.imshow(data, interpolation='None', cmap='gray', aspect='auto')
-        else: plt.imshow(data, interpolation='None', cmap='gray') # Autofits image in main plot
+        else:
+            result = None
+            while result is None:
+                try:
+                    plt.imshow(data, interpolation='None', cmap='gray')
+                    result = 1
+                except:
+                    pass
 
         plt.draw()
 

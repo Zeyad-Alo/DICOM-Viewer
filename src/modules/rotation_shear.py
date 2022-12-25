@@ -18,13 +18,13 @@ class RotationShear:
         if op == 'r': Display.display_image(self, self.rotation_figure, RotationShear.t_array)
         else: Display.display_image(self, self.shear_figure, RotationShear.t_array)
 
-    def rotate(self, angle, type):
+    def rotate(image_array, angle, type):
 
         # Convert imput angle to rad
         rad = math.radians(angle)
 
         # Create new array for rotated image
-        rotated_array = np.zeros( (RotationShear.t_array.shape), dtype=np.uint8)
+        rotated_array = np.zeros( (image_array.shape))
 
         # Rotated array width and height
         width = rotated_array.shape[0]
@@ -47,19 +47,21 @@ class RotationShear:
                     # Adding mid_x and mid_y for inverse translation back to original position
                     x = round(x) + mid_x
                     y = round(y) + mid_y
-                    if x >= 0 and y >= 0 and x < width and y < height: interpolated = RotationShear.t_array[x][y]
+                    if x >= 0 and y >= 0 and x < width and y < height: interpolated = image_array[x][y]
 
                 else:
                     x += mid_x
                     y += mid_y
                     # Calling biinear interpolation
-                    interpolated = Interpolate.interpolate_bilinear(self, x, y, width, height, RotationShear.t_array)
+                    interpolated = Interpolate.interpolate_bilinear(x, y, width, height, image_array)
 
                 # Crop out of original bounds pixels
                 if x >= 0 and y >= 0 and x < width and y < height:
                     rotated_array[i][j] = interpolated
 
-        Display.display_image(self, self.rotation_figure, rotated_array)
+        return rotated_array
+
+        # Display.display_image(self, self.rotation_figure, rotated_array)
         # RotationShear.get_direction(self, angle)
 
 

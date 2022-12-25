@@ -172,12 +172,28 @@ def init_connectors(self):
     self.end_spinBox.valueChanged.connect(
         lambda: self.start_spinBox.setMaximum(self.end_spinBox.value() - 1)
     )
-    self.manual.toggled.connect(
-        lambda: manual_input_handler()
-    )
     self.bp_apply.clicked.connect(
-        lambda: calculate_lamino_handler()
+        lambda: self.back_projection.create_laminogram(self.start_spinBox.value(), self.end_spinBox.value(), self.step_spinBox.value(), self.bp_filter_combobox.currentText())
     )
+
+
+    self.morph_apply_2.hide()
+    self.morph_spinBox_x.valueChanged.connect(
+        lambda: self.morph_spinBox_x.setValue(check_slider_val(self.morph_spinBox_x.value()))
+    )
+    self.morph_spinBox_y.valueChanged.connect(
+        lambda: self.morph_spinBox_y.setValue(check_slider_val(self.morph_spinBox_y.value()))
+    )
+    self.accumulate.toggled.connect(
+        lambda: self.morph.set_accumulative(self.accumulate.isChecked())
+    )
+    self.morph_apply.clicked.connect(
+        lambda: Display.display_image(self, self.morph_post_figure, self.morph.apply_morph_operation(self.morph_spinBox_x.value(), self.morph_spinBox_y.value(), self.morph_combobox.currentText()))
+    )
+    self.morph_apply_2.clicked.connect(
+        lambda: Display.display_image(self, self.morph_post_figure, self.morph.remove_fingerprint_noise())
+    )
+
 
 
     def noise_model_selection(self, type):
@@ -202,18 +218,3 @@ def init_connectors(self):
         if value % 2 == 0:
             return value - 1
         return value
-
-
-    def manual_input_handler():
-
-        if self.manual.isChecked():
-            self.bp_lineEdit.show()
-        else: 
-            self.bp_lineEdit.hide()
-
-    def calculate_lamino_handler():
-        
-        if self.manual.isChecked():
-            self.back_projection.create_lamino_manual_entry(self.bp_lineEdit.text(), self.bp_filter_combobox.currentText())
-        else: 
-            self.back_projection.create_laminogram(self.start_spinBox.value(), self.end_spinBox.value(), self.step_spinBox.value(), self.bp_filter_combobox.currentText())
