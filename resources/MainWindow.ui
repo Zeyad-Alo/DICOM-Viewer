@@ -3141,7 +3141,7 @@ border-color: transparent;</string>
                    <widget class="QComboBox" name="morph_combobox">
                     <property name="minimumSize">
                      <size>
-                      <width>80</width>
+                      <width>100</width>
                       <height>0</height>
                      </size>
                     </property>
@@ -3187,6 +3187,11 @@ QComboBox QAbstractItemView
                     <item>
                      <property name="text">
                       <string>Closing</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Noise Removal</string>
                      </property>
                     </item>
                    </widget>
@@ -3277,36 +3282,6 @@ QComboBox QAbstractItemView
                    </size>
                   </property>
                  </spacer>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="morph_apply_2">
-                  <property name="minimumSize">
-                   <size>
-                    <width>80</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QPushButton {
-    border-radius: 5px;
-    border-style: outset;
-    background: rgb(12, 17, 24);
-	padding: 3;
-    }
-
-QPushButton:hover {
-    background: rgb(63, 95, 127)
-    }
-
-QPushButton:pressed {
-    border-style: inset;
-    background:rgb(20, 20, 20)
-    }</string>
-                  </property>
-                  <property name="text">
-                   <string>Remove Noise</string>
-                  </property>
-                 </widget>
                 </item>
                 <item>
                  <widget class="QPushButton" name="morph_apply">

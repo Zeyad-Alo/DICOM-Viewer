@@ -74,6 +74,7 @@ def browse_window(self):
 
 
         from modules.morphological_processing import MorphologicalProcessing
+        Display.clear_image(self.morph_post_figure)
         self.morph = MorphologicalProcessing(self.data.binary_img)
         Display.display_image(self, self.morph_og_figure, self.morph.image)
 

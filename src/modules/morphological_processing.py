@@ -1,4 +1,5 @@
 import numpy as np
+from modules.spatial_filtering import UnsharpMasking
 
 class MorphologicalProcessing:
 
@@ -12,31 +13,55 @@ class MorphologicalProcessing:
 
     def create_structural_element(self, x, y):
         st_element = np.ones((x, y), dtype=np.uint8)
+        if x > 1:
+            st_element[0][0] = 0
+            st_element[0][y-1] = 0
+        if y > 1:
+            st_element[x-1][0] = 0
+            st_element[x-1][y-1] = 0
+        print(st_element)
         return st_element
 
     def erosion_dilation(self, image, st_elem, type):
+
+        # Pad image
+        padded_array = UnsharpMasking.pad_image(image, (st_elem.shape[0], st_elem.shape[1]))
         
         # Initialize output array
         output_array = np.zeros(image.shape)
 
-        # Offsets of start and end of structural element traversal with respect to image
+        # Offsets of start and end of structural element traversal with respect to padded image
         offset_x = st_elem.shape[0] // 2
         offset_y = st_elem.shape[1] // 2
-        rows_stop = image.shape[0] - offset_x
-        col_stop = image.shape[1] - offset_y
+        rows_stop = image.shape[0] + offset_x
+        col_stop = image.shape[1] + offset_y
 
-        # Loop over image and check whether structural element us fully contained within a shape's borders
+        # Loop over image and check whether structural element is fully contained within a shape's borders
         for x in range(offset_x, rows_stop):
             for y in range(offset_y, col_stop):
                 # Aree of image under structural element
-                st_elem_area = image[x-offset_x:x+offset_x+1, y-offset_y:y+offset_y+1]
-                # Multiply structural element (all 1s) with corresponding pixels
-                product = st_elem_area * st_elem
+                st_elem_area = padded_array[x-offset_x:x+offset_x+1, y-offset_y:y+offset_y+1]
 
-                if type == 'Erosion': output_array[x][y] = np.min(product)      # pixel replaced with 0 if product returned any 0s
-                elif type == 'Dilation': output_array[x][y] = np.max(product)   # pixel replaced with 1 is product returned any 1s
+                # Check if structural element fits/hits
+                output_array[x-offset_x][y-offset_y] = self.process_st_elem_presence(st_elem_area, st_elem, type)
 
         return output_array
+
+
+    def process_st_elem_presence(self, arr, st_elem, type):
+        # Flatten arrays
+        arr = arr.flatten()
+        st_elem = st_elem.flatten()
+
+        # Loop over arrays and check if st_elem fits/hits
+        for i in range(len(st_elem)):
+            if type == 'Erosion':       # Check is and pixel does not fit
+                if st_elem[i] == 1 and arr[i] == 0: return 0
+            elif type == 'Dilation':    # Check if any pixel hits
+                if st_elem[i] == 1 and arr[i] == 1: return 1
+
+        if type == 'Erosion': return 1      # All pixels fit
+        elif type == 'Dilation': return 0   # No pixel hits
 
 
     def opening_closing(self, image, st_elem, type):
@@ -65,6 +90,8 @@ class MorphologicalProcessing:
             morphed = self.erosion_dilation(image, st_elem, type)
         elif type == 'Opening' or type == 'Closing':
             morphed = self.opening_closing(image,st_elem, type)
+        elif type == 'Noise Removal':
+            morphed = self.remove_fingerprint_noise()
 
         self.accumulative_image = morphed
 

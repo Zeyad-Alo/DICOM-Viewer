@@ -21,8 +21,8 @@ class UnsharpMasking:
         offset_y = kernel[1] // 2
 
         # Padded array's dimensions
-        new_arr_width = arr.shape[1] + kernel - 1
-        new_arr_height = arr.shape[0] + kernel - 1
+        new_arr_width = arr.shape[1] + kernel[1] - 1
+        new_arr_height = arr.shape[0] + kernel[0] - 1
         
         # Initialize empty array
         padded_array = np.zeros(shape=(new_arr_height, new_arr_width), dtype=np.uint)

@@ -177,7 +177,9 @@ def init_connectors(self):
     )
 
 
-    self.morph_apply_2.hide()
+    self.morph_combobox.currentIndexChanged.connect(
+        lambda: morph_combobox_handler(self, self.morph_combobox.currentText())
+    )
     self.morph_spinBox_x.valueChanged.connect(
         lambda: self.morph_spinBox_x.setValue(check_slider_val(self.morph_spinBox_x.value()))
     )
@@ -189,9 +191,6 @@ def init_connectors(self):
     )
     self.morph_apply.clicked.connect(
         lambda: Display.display_image(self, self.morph_post_figure, self.morph.apply_morph_operation(self.morph_spinBox_x.value(), self.morph_spinBox_y.value(), self.morph_combobox.currentText()))
-    )
-    self.morph_apply_2.clicked.connect(
-        lambda: Display.display_image(self, self.morph_post_figure, self.morph.remove_fingerprint_noise())
     )
 
 
@@ -218,3 +217,17 @@ def init_connectors(self):
         if value % 2 == 0:
             return value - 1
         return value
+
+    def morph_combobox_handler(self, value):
+        if value == 'Noise Removal':
+            self.label_36.hide()
+            self.morph_spinBox_x.hide()
+            self.morph_spinBox_y.hide()
+            self.label_37.hide()
+            self.accumulate.hide()
+        else:
+            self.label_36.show()
+            self.morph_spinBox_x.show()
+            self.morph_spinBox_y.show()
+            self.label_37.show()
+            self.accumulate.show()
